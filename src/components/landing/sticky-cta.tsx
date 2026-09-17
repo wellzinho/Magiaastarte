@@ -6,11 +6,9 @@ import { siteConfig } from "@/config/site";
 
 export function StickyCta() {
   const [visible, setVisible] = useState(false);
-  const [knowsBox, setKnowsBox] = useState(false);
 
   useEffect(() => {
     const pricing = document.getElementById(siteConfig.anchors.pricing);
-    const box = document.getElementById("box-completo");
     let inPricing = false;
 
     const update = () => {
@@ -30,40 +28,29 @@ export function StickyCta() {
         )
       : null;
 
-    const boxObserver = box
-      ? new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) setKnowsBox(true);
-          },
-          { threshold: 0.12 },
-        )
-      : null;
-
     if (pricing && pricingObserver) pricingObserver.observe(pricing);
-    if (box && boxObserver) boxObserver.observe(box);
     window.addEventListener("scroll", onScroll, { passive: true });
     update();
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       pricingObserver?.disconnect();
-      boxObserver?.disconnect();
     };
   }, []);
 
   if (!visible) return null;
 
-  const { label, boxLabel, button } = siteConfig.stickyCta;
+  const { label, button } = siteConfig.stickyCta;
 
   return (
     <div
       className="sticky-bar fixed inset-x-0 bottom-0 z-40 px-4 py-2.5 md:hidden"
       role="region"
-      aria-label="Atalho para opções de compra"
+      aria-label="Atalho para compra do Guia Completo"
     >
       <div className="flex items-center justify-between gap-3">
         <p className="text-[0.8125rem] font-medium tracking-[0.02em] text-marfim">
-          {knowsBox ? boxLabel : label}
+          {label}
         </p>
         <a
           href={getCheckoutHref("autonomy")}

@@ -17,8 +17,7 @@ export const siteConfig = {
     faq: "duvidas",
   },
   stickyCta: {
-    label: "21 PRÁTICAS • R$37,90",
-    boxLabel: "GUIA COMPLETO • R$47,90",
+    label: "Guia completo R$ 47,90",
     button: "Comprar",
   },
 } as const;
