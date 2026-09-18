@@ -13,10 +13,12 @@ import { FinalAnchor } from "@/components/landing/final-anchor";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { StickyCta } from "@/components/landing/sticky-cta";
 import { RevealObserver } from "@/components/ui/reveal-observer";
+import { MetaViewContent } from "@/components/analytics/meta-view-content";
 
 export default function Home() {
   return (
     <>
+      <MetaViewContent />
       <RevealObserver />
       <SiteHeader />
       <main>
