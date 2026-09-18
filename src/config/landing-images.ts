@@ -41,8 +41,8 @@ export const landingImages = {
     placeholder: "PRATICAS_INSIDE_02",
   },
   cards: {
-    src: "/imagens/box2.png",
-    alt: "Guia Completo de Pombagira: 21 Práticas, Código das Ervas, Magia da Lua e cards",
+    src: "/imagens/hero.png",
+    alt: "Cards das 49 Coisas sobre Pombagira espalhados sobre a mesa",
     placeholder: "CARDS",
   },
   herbs: {
