@@ -84,12 +84,6 @@ export const authoritySection = {
       height: 61,
     },
     {
-      src: "/provas/prova2.png",
-      alt: "Depoimento de katiaaguiar286: Comprei semana passada e agora vou comprar um caderno para anotar tudo e cuidar dos meus guias.",
-      width: 331,
-      height: 78,
-    },
-    {
       src: "/provas/prova3.png",
       alt: "Depoimento de cleuza.silveira.7: Gostei muito do conteúdo.",
       width: 331,
