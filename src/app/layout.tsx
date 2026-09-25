@@ -1,3 +1,4 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
@@ -50,6 +51,7 @@ export default function RootLayout({
         <MetaPixel />
         {children}
       </body>
+      <GoogleTagManager gtmId="GTM-WFQ78SNN" />
     </html>
   );
 }
