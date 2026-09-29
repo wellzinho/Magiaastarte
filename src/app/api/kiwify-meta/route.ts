@@ -18,28 +18,30 @@ function isWebhookObject(value: unknown): value is KiwifyWebhook {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function hmacMatches(
-  rawBody: string,
-  token: string,
-  signature: string,
-  algorithm: "sha1" | "sha256",
-  encoding: "hex" | "base64",
-): boolean {
-  const expected = createHmac(algorithm, token).update(rawBody, "utf8").digest(encoding);
-  const expectedBytes = Buffer.from(expected);
-  const receivedBytes = Buffer.from(signature);
-  if (expectedBytes.length !== receivedBytes.length) {
+function isSha1HexSignature(signature: string): boolean {
+  return /^[0-9a-f]{40}$/.test(signature);
+}
+
+function signatureMatches(rawBody: string, token: string, signature: string): boolean {
+  if (!isSha1HexSignature(signature)) {
     return false;
   }
-  return timingSafeEqual(expectedBytes, receivedBytes);
+
+  const expected = createHmac("sha1", token).update(rawBody, "utf8").digest("hex");
+  return timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }
 
 export async function POST(request: NextRequest) {
+  const token = process.env.KIWIFY_WEBHOOK_TOKEN;
+  if (typeof token !== "string" || token.length === 0) {
+    return NextResponse.json({ received: false }, { status: 500 });
+  }
+
   const raw = await request.text();
   const signature = request.nextUrl.searchParams.get("signature");
-  const token = process.env.KIWIFY_WEBHOOK_TOKEN;
-  const tokenConfigured = typeof token === "string" && token.length > 0;
-  const canCompare = tokenConfigured && typeof signature === "string" && signature.length > 0;
+  if (!signature || !signatureMatches(raw, token, signature)) {
+    return NextResponse.json({ received: false }, { status: 401 });
+  }
 
   let parsed: unknown;
   try {
@@ -59,13 +61,6 @@ export async function POST(request: NextRequest) {
     "Product.product_id": parsed.Product?.product_id ?? null,
     "Commissions.charge_amount": parsed.Commissions?.charge_amount ?? null,
     "Commissions.currency": parsed.Commissions?.currency ?? null,
-    has_signature: signature !== null,
-    token_configured: tokenConfigured,
-    signature_length: signature?.length ?? 0,
-    hmac_sha1_hex: canCompare && hmacMatches(raw, token, signature, "sha1", "hex"),
-    hmac_sha256_hex: canCompare && hmacMatches(raw, token, signature, "sha256", "hex"),
-    hmac_sha1_base64: canCompare && hmacMatches(raw, token, signature, "sha1", "base64"),
-    hmac_sha256_base64: canCompare && hmacMatches(raw, token, signature, "sha256", "base64"),
   });
 
   return NextResponse.json({ received: true });
