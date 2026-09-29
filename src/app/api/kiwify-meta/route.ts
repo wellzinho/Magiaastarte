@@ -1,18 +1,16 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  META_DATASET_ID,
+  buildCompraConcluida,
+  interpretMetaResponse,
+  isEligiblePurchase,
+  type SaleWebhook,
+} from "./purchase-event";
 
-type KiwifyWebhook = {
-  webhook_event_type?: unknown;
-  order_status?: unknown;
-  order_id?: unknown;
-  Product?: {
-    product_id?: unknown;
-  };
-  Commissions?: {
-    charge_amount?: unknown;
-    currency?: unknown;
-  };
-};
+const META_EVENTS_URL = `https://graph.facebook.com/v23.0/${META_DATASET_ID}/events`;
+
+type KiwifyWebhook = SaleWebhook;
 
 function isWebhookObject(value: unknown): value is KiwifyWebhook {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -63,5 +61,71 @@ export async function POST(request: NextRequest) {
     "Commissions.currency": parsed.Commissions?.currency ?? null,
   });
 
+  if (!isEligiblePurchase(parsed)) {
+    return NextResponse.json({ received: true });
+  }
+
+  const built = buildCompraConcluida(parsed);
+  if (!built.ok) {
+    console.log({ meta_status: null, meta_error_code: built.reason });
+    if (built.reason === "missing_customer_identifier") {
+      return NextResponse.json({ received: true });
+    }
+    return NextResponse.json({ received: false }, { status: 400 });
+  }
+  const event = built.event;
+
+  const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
+  if (typeof accessToken !== "string" || accessToken.length === 0) {
+    console.log({ meta_status: null, meta_error_code: "missing_access_token" });
+    return NextResponse.json({ received: false }, { status: 500 });
+  }
+
+  const result = await sendCompraConcluida(event, accessToken);
+  console.log({
+    meta_status: result.status,
+    meta_error_code: result.errorCode,
+    events_received: result.eventsReceived,
+  });
+
+  if (!result.ok) {
+    return NextResponse.json({ received: false }, { status: 502 });
+  }
+
   return NextResponse.json({ received: true });
+}
+
+async function sendCompraConcluida(
+  event: Extract<ReturnType<typeof buildCompraConcluida>, { ok: true }>["event"],
+  accessToken: string,
+): Promise<{ ok: boolean; status: number; errorCode: number | null; eventsReceived: number | null }> {
+  const url = new URL(META_EVENTS_URL);
+  url.searchParams.set("access_token", accessToken);
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ data: [event] }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    const body = await readJson(response);
+    const interpreted = interpretMetaResponse(response.status, body);
+    return {
+      ok: interpreted.ok,
+      status: response.status,
+      errorCode: interpreted.errorCode,
+      eventsReceived: interpreted.eventsReceived,
+    };
+  } catch {
+    return { ok: false, status: 0, errorCode: null, eventsReceived: null };
+  }
+}
+
+async function readJson(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
 }
