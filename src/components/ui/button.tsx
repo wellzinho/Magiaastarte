@@ -41,8 +41,9 @@ export function Button({
 
   if ("href" in rest && rest.href !== undefined) {
     const { href, ...linkProps } = rest;
-    const isExternal = href.startsWith("http");
-    if (isExternal) {
+    // Hash links stay plain anchors so the page query (UTMs) is never rewritten.
+    const isPlainAnchor = href.startsWith("http") || href.startsWith("#");
+    if (isPlainAnchor) {
       return (
         <a href={href} className={classes} {...linkProps}>
           {children}

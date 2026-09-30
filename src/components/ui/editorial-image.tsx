@@ -8,6 +8,8 @@ type EditorialImageProps = {
   className?: string;
   aspect?: string;
   preload?: boolean;
+  /** Disable for content that re-renders after mount (the reveal observer only runs once). */
+  reveal?: boolean;
   children?: ReactNode;
 };
 
@@ -17,15 +19,17 @@ export function EditorialImage({
   className = "",
   aspect = "aspect-[4/5]",
   preload = false,
+  reveal = true,
   children,
 }: EditorialImageProps) {
   const frame = light ? "photo-frame-light" : "photo-frame";
   const overlayClass = children ? "has-photo-caption" : "";
+  const revealAttr = reveal ? { "data-reveal": "image" } : {};
 
   if (!image.src) {
     return (
       <div
-        data-reveal="image"
+        {...revealAttr}
         className={`${frame} ${overlayClass} ${aspect} flex w-full items-center justify-center px-6 text-center ${className}`.trim()}
         aria-hidden="true"
       >
@@ -38,7 +42,7 @@ export function EditorialImage({
 
   return (
     <div
-      data-reveal="image"
+      {...revealAttr}
       className={`${frame} ${overlayClass} relative ${aspect} w-full ${className}`.trim()}
     >
       <Image

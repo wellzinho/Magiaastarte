@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { siteConfig } from "@/config/site";
-import { faqItems } from "@/data/landing-content";
+import { faqItems, faqSection } from "@/data/landing-content";
 
 function Chevron({ open }: { open: boolean }) {
   return (
@@ -29,7 +29,7 @@ function Chevron({ open }: { open: boolean }) {
 
 export function Faq() {
   const baseId = useId();
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section
@@ -38,7 +38,7 @@ export function Faq() {
     >
       <div className="section-shell max-w-3xl">
         <h2 data-reveal className="font-display section-headline text-vinho">
-          Dúvidas
+          {faqSection.h2}
         </h2>
 
         <div className="mt-12 divide-y divide-vinho/10 rounded-[20px] border border-vinho/10 bg-white/42 px-5 shadow-[0_12px_35px_rgba(45,23,27,0.06)] md:px-7">

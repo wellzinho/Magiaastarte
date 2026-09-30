@@ -2,6 +2,7 @@ export type PlanId = "practice" | "autonomy";
 
 export type PlanConfig = {
   id: PlanId;
+  name: string;
   checkoutUrl: string;
   price: string;
   priceDisplay: string;
@@ -18,12 +19,14 @@ const UTM_KEYS = [
 export const plans: Record<PlanId, PlanConfig> = {
   practice: {
     id: "practice",
+    name: "21 Práticas de Pombagira",
     checkoutUrl: "https://pay.kiwify.com.br/L3igk0G",
     price: "37,90",
     priceDisplay: "R$37,90",
   },
   autonomy: {
     id: "autonomy",
+    name: "Guia Completo de Pombagira",
     checkoutUrl: "https://pay.kiwify.com.br/GssRacA",
     price: "47,90",
     priceDisplay: "R$47,90",

@@ -6,8 +6,8 @@ export type LandingImage = {
 
 export const landingImages = {
   hero: {
-    src: "/imagens/hero2.png",
-    alt: "Guia 21 Práticas de Pombagira: capa e páginas internas abertas sobre a mesa",
+    src: "/imagens/imagemdentro.png",
+    alt: "Mulher lendo o guia 21 Práticas de Pombagira aberto nas Práticas 20 e 21, com o livro fechado à frente",
     placeholder: "HERO_21_PRATICAS",
   },
   problem: {
@@ -16,13 +16,13 @@ export const landingImages = {
     placeholder: "PROBLEMA_EDITORIAL",
   },
   authority: {
-    src: "/imagens/autoridade.png",
-    alt: "Materiais Magia Astarte sobre a mesa: 21 Práticas, Código das Ervas, Magia da Lua e cards",
+    src: "/imagens/prova.png",
+    alt: "Mulher preparando ervas e flores sobre a mesa, com velas, maçãs e materiais de prática",
     placeholder: "ASTARTE_AUTHORITY",
   },
   practicesThumb: {
     src: "/imagens/21pratica.png",
-    alt: "Capa do guia 21 Práticas de Pombagira",
+    alt: "Capa do guia 21 Práticas de Pombagira ao lado das páginas internas da Prática 07 — Padê de Bombom",
     placeholder: "PRATICAS_THUMB",
   },
   practicesCover: {

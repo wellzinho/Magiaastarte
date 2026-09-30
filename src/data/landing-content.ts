@@ -1,81 +1,60 @@
 import type { PlanId } from "@/config/checkout";
 
+// SEÇÃO 1 — HERO
 export const hero = {
-  eyebrow: "POMBAGIRA • GUIA PRÁTICO",
-  h1: "Chega de preparar um banho, um padê ou uma oferenda para Pombagira pensando:\n\n“Será que estou fazendo certo?”",
+  eyebrow: "21 PRÁTICAS DE POMBAGIRA",
+  h1: "Práticas de Pombagira para o amor\nCom passo a passo para você aprender a atrair o amor que deseja",
   subheadline:
-    "Banhos, padês, defumações\ne outras práticas explicadas do começo ao fim.\n\npara que servem,\no que você precisa,\ncomo fazer\ne o que cada elemento representa.",
-  highlight: [
-    "Pare de fazer na dúvida.",
-    "Entenda primeiro.\nPrepare depois.",
-  ],
-  productName: "21 Práticas de Pombagira",
-  price: "R$37,90",
-  microcopy: "Pagamento único • acesso digital • 7 dias de garantia",
+    "Você vai aprender adoçamento, banhos, afoshé, padê e muito mais, além de aprender o preparo e o que cada elemento representa.",
+  complement:
+    "21 práticas para o amor, atração e magnetismo explicadas do começo ao fim.",
+  productLabel: "PRODUTO",
+  microcopy:
+    "Pagamento único • Acesso após a confirmação do pagamento • 7 dias de garantia",
   cta: "QUERO AS 21 PRÁTICAS",
 } as const;
 
+// SEÇÃO 2 — PROBLEMA E IDENTIFICAÇÃO
 export const painSection = {
-  eyebrow: "O PROBLEMA NÃO É ENCONTRAR UMA PRÁTICA",
-  h2: "É chegar na hora de fazer...\n\ne perceber que ninguém explicou direito.",
-  body: [
-    "Você salva o vídeo.",
-    "Salva o banho.",
-    "Salva o padê.",
-    "Pergunta para o pai de santo.",
-    "Pensa:",
-    "“Depois eu faço.”",
+  h2: "A vontade de fazer uma prática não aparece do nada.",
+  triggers: [
+    "Às vezes, tem saudade.",
+    "Tem uma conversa que esfriou.",
+    "Tem vontade de se aproximar de alguém.",
+    "Ou de cuidar de você depois de uma relação que machucou.",
   ],
-  when: "Mas quando chega a hora...",
-  questions: [
-    "“Pode trocar esse ingrediente?”",
-    "“Precisa ser exatamente assim?”",
-    "“Por que colocaram isso?”",
-    "“E se eu não tiver essa erva?”",
-    "“Posso fazer desse jeito?”",
+  search: [
+    "Você procura uma prática de Pombagira.",
+    "Encontra um banho, um adoçamento, um padê.",
+    "Salva porque quer fazer.",
   ],
-  pauseH2:
-    "E aquela prática que parecia simples...\n\nvira mais uma pesquisa.",
-  deepeningH2:
-    "Você encontra um banho,\num padê,\numa defumação\nou uma oferenda em todo lugar.\n\nO difícil é alguém explicar\no que cada elemento representa\ne o que ninguém conta\nna hora de preparar.",
-  deepeningBody: [
-    "“Pode trocar esse elemento?”",
-    "“Por que usam essa erva?”",
-    "“Precisa fazer desse jeito?”",
-    "“Quando essa prática faz sentido?”",
+  gap: "Mas, na hora de preparar, falta uma informação.",
+  gapDetails: [
+    "O vídeo mostra os ingredientes, mas não explica uma etapa.",
+    "Nos comentários, cada pessoa fala uma coisa.",
+    "E você acaba procurando outra receita.",
   ],
-  want: "E você só queria saber uma coisa:",
-  wantQuote: "“Como eu faço isso direito?”",
-  spotlight: "É nessa hora que a dúvida começa.",
+  closing: [
+    "Você já sabe o que gostaria de trabalhar.",
+    "Agora, quer aprender como preparar a prática.",
+  ],
 } as const;
 
-export const bigIdea = {
-  lines: [
-    "Você pode ter 30 práticas salvas\ne ainda travar na primeira entrega.",
-    "Porque salvar o passo a passo\nnão explica o porquê.",
-  ],
-  support:
-    "Quando você entende os elementos,\no preparo\ne a intenção daquela prática,\n\ntudo começa a fazer mais sentido.",
-} as const;
-
+// SEÇÃO 3 — AUTORIDADE
 export const authoritySection = {
   eyebrow: "MAIS DE 8 ANOS DE ASTARTE",
   badge: "+8 ANOS",
-  h2: "Esse conhecimento\nnão começou ontem.",
-  body: "Há mais de 8 anos,\na Astarte reúne conhecimento,\nreferências,\npráticas\ne dúvidas que aparecem repetidamente\nnesse universo.",
-  shift: "Ao longo desse tempo,\nalgumas perguntas mudam de forma.",
-  but: "Mas voltam sempre para o mesmo lugar:",
+  h2: "Há mais de 8 anos, a Astarte ouve perguntas como as suas.",
   questions: [
-    "“Posso fazer?”",
-    "“Como faz?”",
-    "“Por que usam isso?”",
-    "“Será que estou fazendo certo?”",
+    "“Como faz esse padê?”",
+    "“Para que serve esse banho?”",
+    "“Pode fazer qualquer dia da semana?”",
+    "“Descarta onde?”",
   ],
+  body: "Essas dúvidas fazem parte da história da Astarte.",
   closing:
-    "Hoje esse conhecimento\nestá organizado\npara você não precisar começar do zero.",
-  badgeNote: "Astarte reunindo conhecimento\nsobre esse universo.",
-  proofH3:
-    "Quem já teve contato com o material\nentendeu a diferença.",
+    "O 21 Práticas de Pombagira organiza os preparos e suas explicações para você ter onde consultar, aprender e voltar quando precisar.",
+  proofH3: "Veja os relatos de quem já comprou",
   prints: [
     {
       src: "/provas/prova1.png",
@@ -110,215 +89,159 @@ export const authoritySection = {
   ],
 } as const;
 
+// SEÇÃO 4 — ANCORAGEM DE VALOR
 export const costAnchor = {
-  eyebrow: "QUANTAS VEZES VOCÊ JÁ FEZ ISSO?",
-  sequence: [
-    "“Vou pesquisar rapidinho.”",
-    "TikTok",
-    "Google",
-    "Comentários",
-    "Outro vídeo",
-    "Outra receita",
-    "“Tá...\nqual delas eu faço?”",
+  h2: "Os vídeos ficam salvos.\nAs explicações ficam espalhadas.",
+  scattered: [
+    "Um preparo aqui.",
+    "Uma lista de materiais ali.",
+    "A resposta para uma dúvida em algum comentário que você não encontra mais.",
   ],
-  h2Lead: "O problema não é pesquisar.",
-  h2: ["É precisar fazer isso", "TODA VEZ."],
-  body: "Toda prática nova vira outra pesquisa.\n\nToda dúvida vira outro vídeo.\n\nToda falta de ingrediente\nvira uma receita diferente.",
-  highlight: "21 práticas organizadas.\n\nR$37,90.\n\nUma única vez.",
-  paymentNote: "Pagamento único.",
-  closing: "Menos “será que pode?”\n\nMais “agora eu sei por onde começar”.",
-  cta: "QUERO PARAR DE FAZER NA DÚVIDA",
+  // {price} é substituído pelo preço configurado em src/config/checkout.ts
+  offer:
+    "Por {price}, você recebe as 21 práticas reunidas em um guia, com materiais, etapas e orientações para consultar durante o aprendizado.",
+  closing: ["Você compra uma vez.", "E pode voltar ao material quando precisar."],
+  cta: "COMPRAR AS 21 PRÁTICAS",
 } as const;
 
+// SEÇÃO 5 — COMO FUNCIONA
 export const threeSteps = {
-  eyebrow: "COMO FUNCIONA?",
-  h2: "Escolha.\nEntenda.\nFaça.",
+  eyebrow: "COMO FUNCIONA",
+  h2: "Da escolha da prática ao preparo.",
   steps: [
     {
       number: "01",
       title: "ESCOLHA",
-      text: "Encontre a prática\nque combina com aquilo\nque você quer trabalhar naquele momento.",
+      text: "Veja a finalidade de cada prática e encontre o que você quer fazer naquele momento.",
     },
     {
       number: "02",
-      title: "ENTENDA",
-      text: "Antes de fazer,\nveja:\n\npara que serve,\no que precisa,\nquando faz sentido\ne o que cada elemento representa.",
+      title: "CONFIRA",
+      text: "Leia os materiais, as orientações e o que precisa saber antes de começar.",
     },
     {
       number: "03",
-      title: "FAÇA",
-      text: "Siga o passo a passo\ne saiba também\no que fazer depois.",
+      title: "ACOMPANHE O PREPARO",
+      text: "Siga as etapas explicadas no guia e consulte as orientações sobre o que fazer depois.",
     },
   ],
-  closingLead: "Menos:",
-  closingLess: "“será que é assim?”",
-  closingMoreLead: "Mais:",
-  closingMore: "“agora eu sei por onde começar.”",
+  closing: "Tudo organizado para você acompanhar no seu ritmo.",
 } as const;
 
+// SEÇÃO 6 — CONTEÚDO DAS 21 PRÁTICAS
 export const productPraticas = {
   eyebrow: "POR DENTRO DO GUIA",
-  h2: "21 práticas para Pombagira.\n\nE em cada uma delas,\nmuito mais do que um passo a passo.",
-  body: "Banhos, padês, defumações,\noferendas\ne outras práticas organizadas\npara você entender antes de fazer.",
+  h2: "Veja o que você vai aprender a preparar.",
+  body: "Banhos, padês, velas, afoshés, defumações e outras práticas ligadas a Pombagira.",
+  focus: "Entre elas, preparos voltados para amor, atração e cuidado com você.",
+  layersLead: "Em cada prática, você encontra:",
   layers: [
-    "PARA QUE SERVE",
-    "QUANDO FAZ SENTIDO",
-    "O QUE VOCÊ PRECISA",
-    "ANTES DE COMEÇAR",
-    "COMO PREPARAR",
-    "O QUE CADA ELEMENTO REPRESENTA",
-    "O QUE FAZER DEPOIS",
-    "DÚVIDAS COMUNS",
+    "Para que serve.",
+    "Quando faz sentido usar.",
+    "Quais materiais são necessários.",
+    "O que saber antes de começar.",
+    "Como preparar, passo a passo.",
+    "O que os elementos representam.",
+    "Orientações para depois do preparo.",
+    "Dúvidas comuns.",
   ],
-  closing:
-    "Porque fazer é uma coisa.\n\nEntender por que cada elemento está ali\né outra.",
-  galleryLead: "Algumas práticas que você vai encontrar",
-  examplesEyebrow: "ALGUMAS DAS PRÁTICAS QUE VOCÊ VAI ENCONTRAR",
-  examples: [
-    "[PRÁTICA REAL 01]",
-    "[PRÁTICA REAL 02]",
-    "[PRÁTICA REAL 03]",
-    "[PRÁTICA REAL 04]",
-  ],
+  galleryLead: "Você pode conferir exemplos nas páginas abaixo.",
+  cta: "COMPRAR AGORA",
 } as const;
 
-export const boxBridge = {
-  h2: "E depois que você aprende\na fazer...\n\ncomeça a querer entender mais.",
-  questions: [
-    "“Por que essa erva?”",
-    "“Por que essa Lua?”",
-    "“Posso substituir?”",
-    "“Por que minha experiência é diferente?”",
-  ],
-  close: "É aí que entra o Guia Completo de Pombagira.",
-} as const;
-
-export const product49 = {
-  eyebrow: "PARA ENTENDER MAIS",
-  h2: "49 Coisas sobre Pombagira\nque Ninguém te Conta",
-  body: "Conhecimentos,\ncuriosidades\ne aquelas coisas\nque muita gente leva tempo\npara descobrir.",
-  cards: [
-    "“Pombagira também é mãe.”",
-    "“Sonho não confirma sua Pombagira.”",
-    "“‘Sou eu ou é ela?’ acontece.”",
-  ],
-  closing:
-    "Não é para decorar.\n\nÉ para entender melhor\no universo que existe\npor trás da prática.",
-} as const;
-
-export const productErvas = {
-  eyebrow: "PARA SE VIRAR MELHOR",
-  h2: "Faltou uma erva.\n\nE agora?",
-  body: "Em vez de abandonar a prática\ne sair procurando outra receita,\n\no Código das Ervas\najuda você a entender\no papel das ervas\ne as escolhas orientadas pelo material.",
-  highlight: "Não é misturar qualquer coisa.\n\nÉ começar a saber escolher.",
-} as const;
-
-export const productLua = {
-  eyebrow: "PARA PARAR DE SÓ COPIAR",
-  questions: [
-    "Por que essa Lua?",
-    "Por que essa cor?",
-    "Por que essa rosa?",
-    "Por que esse símbolo?",
-  ],
-  body: "Depois de aprender\no que fazer,\n\ncomeça outra fase:\n\nentender por que certos elementos\naparecem nas práticas.",
-  name: "Magia da Lua & Símbolos",
-  sub: "Um guia visual para entender melhor\nmomentos,\nsímbolos\ne elementos\nque aparecem nesse universo.",
-  closing: "Você deixa de apenas copiar.\n\nE começa a entender\npor que aquilo está ali.",
-} as const;
-
-export const productAudios = {
-  benefit: "+ 5 áudios para acompanhar as práticas.",
-  micro: "Para a experiência\nnão ficar só na leitura.",
-} as const;
-
-export const afterProductsCta = {
-  cta: "QUERO VER AS OPÇÕES",
-} as const;
-
-export type PricingOption = {
+// SEÇÃO 7 — OFERTA: DOIS CARDS + COMPARATIVO
+export type OfferOption = {
   id: PlanId;
-  label?: string;
   badge?: string;
-  title?: string;
-  headline?: string;
-  includes?: readonly string[];
-  note?: string;
+  title: string;
+  subtitle: string;
+  tagline: string;
+  includes: readonly string[];
+  /** Small price tag shown on the card image (e.g. price difference). */
+  tag?: string;
   cta: string;
-  recommended?: boolean;
 };
 
-export const pricingSection = {
-  h2: "Escolha até onde\nvocê quer ir.",
-  sub: "Comece aprendendo\nas 21 práticas.\n\nOu por R$10 a mais,\nleve também tudo\nque ajuda você\na entender e se virar melhor.",
+export type OfferComparisonRow = {
+  label: string;
+  practice: boolean;
+  autonomy: boolean;
+};
+
+export const offerSection = {
+  eyebrow: "DUAS FORMAS DE COMEÇAR",
+  h2: "Escolha o que você quer receber.",
+  // {practicePrice} é substituído pelo preço real das 21 Práticas.
+  lead: "Você pode começar pelas 21 Práticas de Pombagira por {practicePrice} ou levar o Guia Completo de Pombagira por apenas R$10 a mais.",
+  paymentLabel: "Pagamento único",
+  accessLabel: "Acesso após a confirmação do pagamento",
+  micro: "Produto digital • 7 dias de garantia",
   options: [
     {
-      id: "practice" as PlanId,
-      label: "QUERO APRENDER AS PRÁTICAS",
+      id: "practice",
       title: "21 Práticas de Pombagira",
+      subtitle: "VERSÃO INICIAL",
+      tagline: "O guia para aprender os preparos.",
       includes: [
-        "21 práticas organizadas",
-        "finalidade de cada prática",
-        "materiais",
-        "passo a passo",
-        "significado dos elementos",
-        "orientações antes e depois",
+        "Banhos, padês, velas e outras práticas organizadas",
+        "Finalidade e materiais de cada preparo",
+        "Passo a passo explicado",
+        "Significado dos elementos",
+        "Orientações antes e depois",
+        "Dúvidas comuns",
       ],
       cta: "QUERO AS 21 PRÁTICAS",
     },
     {
-      id: "autonomy" as PlanId,
-      badge: "GUIA COMPLETO DE POMBAGIRA",
-      headline:
-        "Não fique só no\n“agora eu entendi”.\n\nAprenda o que fazer,\ncomo fazer\ne como se virar melhor\nquando surgir uma situação nova.",
+      id: "autonomy",
+      badge: "MAIS COMPLETO",
+      title: "Guia Completo de Pombagira",
+      subtitle: "VERSÃO COMPLETA",
+      tagline: "As 21 práticas + materiais para aprofundar seu aprendizado.",
       includes: [
-        "21 Práticas de Pombagira",
-        "49 Coisas sobre Pombagira que Ninguém te Conta",
-        "Código das Ervas",
-        "Magia da Lua & Símbolos",
-        "5 áudios para te guiar nas práticas",
+        "Tudo das 21 Práticas de Pombagira",
+        "Código das Ervas — o papel das ervas e as escolhas explicadas no material",
+        "Magia da Lua & Símbolos — os momentos e elementos presentes nas práticas",
+        "49 cards: Coisas sobre Pombagira que Ninguém te Conta",
+        "5 áudios para acompanhar as práticas",
       ],
+      tag: "Por mais R$ 10,00",
       cta: "QUERO O GUIA COMPLETO",
-      recommended: true,
     },
-  ] satisfies readonly PricingOption[],
-  paymentNote: "Pagamento único.",
-  boxAnchor: {
-    big: "POR APENAS R$10 A MAIS.",
-    micro: "ENTENDA.\nFAÇA.\nTENHA FUNDAMENTO.",
+  ] as readonly OfferOption[],
+  comparison: {
+    h3: "O QUE VOCÊ RECEBE",
+    columns: { practice: "21 PRÁTICAS", autonomy: "GUIA COMPLETO" },
+    rows: [
+      { label: "21 práticas de Pombagira", practice: true, autonomy: true },
+      { label: "Materiais, etapas e orientações de cada prática", practice: true, autonomy: true },
+      { label: "Significado dos elementos e dúvidas comuns", practice: true, autonomy: true },
+      { label: "Código das Ervas", practice: false, autonomy: true },
+      { label: "Magia da Lua & Símbolos", practice: false, autonomy: true },
+      { label: "49 cards: Coisas sobre Pombagira que Ninguém te Conta", practice: false, autonomy: true },
+      { label: "5 áudios para acompanhar as práticas", practice: false, autonomy: true },
+    ] as readonly OfferComparisonRow[],
+    priceLabel: "Preço",
+    included: "Incluído",
+    notIncluded: "Não incluído",
   },
 } as const;
 
+// SEÇÃO 8 — ANTES E DEPOIS DO APRENDIZADO
 export const beforeAfter = {
-  eyebrow: "O QUE MUDA?",
-  h2: "De salvar prática...\n\npara saber o que está fazendo.",
+  h2: "Na hora de preparar, faz diferença ter a explicação por perto.",
   before: {
     label: "ANTES",
-    items: [
-      "Você encontra um banho,\num padê,\numa defumação\nou uma oferenda.",
-      "Salva.",
-      "Na hora de fazer,\naparece uma dúvida.",
-      "Pesquisa outra versão.",
-      "Encontra uma diferente.",
-      "Fica insegura.",
-      "Adia\nou faz sem saber se entendeu direito.",
-    ],
+    text: "Você encontra uma prática, salva e tenta lembrar onde estava cada informação. Quando aparece uma dúvida, começa outra pesquisa.",
   },
   after: {
-    label: "DEPOIS",
-    items: [
-      "Você sabe o fundamento.",
-      "Encontra a prática.",
-      "Entende para que serve.",
-      "Vê o que precisa.",
-      "Entende os elementos.",
-      "Segue o passo a passo.",
-      "Tem autonomia para trabalhar com troca de elementos.",
-    ],
+    label: "COM O GUIA",
+    text: "Você abre a prática, confere os materiais, lê as orientações e acompanha o preparo no mesmo lugar.",
   },
-  closing: "Você não precisa saber tudo.\n\nPare de fazer na dúvida.",
+  complement:
+    "O aprendizado aparece no que você passa a compreender e consegue consultar.",
   proofH2:
-    "Quando você entende\no fundamento,\na sensação muda.",
+    "Veja o que compradores disseram sobre a clareza e o conteúdo do material.",
   prints: [
     {
       src: "/provas/prova7.png",
@@ -413,54 +336,58 @@ export const beforeAfter = {
   ],
 } as const;
 
+// SEÇÃO 9 — FAQ
+export const faqSection = {
+  h2: "Antes de escolher, vale esclarecer.",
+} as const;
+
 export const faqItems = [
   {
-    question: "Preciso ser umbandista para usar?",
+    question: "Preciso já saber fazer as práticas?",
     answer:
-      "Não. O material foi pensado para quem quer conhecer e compreender melhor práticas ligadas a Pombagira, respeitando que fundamentos e orientações podem variar conforme casas e tradições.",
+      "O guia apresenta materiais, etapas e orientações para apoiar seu aprendizado. Você pode conferir exemplos das páginas antes de comprar.",
   },
   {
-    question: "Isso substitui meu terreiro, mãe ou pai de santo?",
+    question: "Preciso ter todos os ingredientes?",
     answer:
-      "Não. O material ajuda você a entender e consultar práticas e conceitos.",
+      "Cada prática informa seus materiais. Você pode consultar o guia antes de escolher qual preparo estudar e reunir o necessário.",
   },
   {
-    question: "Vou precisar ter todos os materiais em casa?",
+    question: "Qual é a diferença entre as opções?",
     answer:
-      "Não necessariamente. Cada prática mostra o que é necessário. No Guia Completo de Pombagira, o Código das Ervas também ajuda você a compreender melhor as ervas e as escolhas orientadas pelo material.",
+      "Por R$37,90, você recebe as 21 Práticas de Pombagira.\nPor R$47,90, recebe também Código das Ervas, Magia da Lua & Símbolos, 49 cards e 5 áudios para te guiar durante as práticas.",
   },
   {
-    question: "Qual a diferença entre as duas opções?",
+    question: "Como recebo?",
     answer:
-      "Por R$37,90 você recebe as 21 Práticas de Pombagira.\n\nPor R$47,90 você leva o Guia Completo de Pombagira, com as 21 Práticas + 49 Coisas sobre Pombagira + Código das Ervas + Magia da Lua & Símbolos + 5 áudios.",
+      "Após a confirmação do pagamento, o acesso fica disponível na Kiwify. As informações de acesso são enviadas ao e-mail informado na compra.",
   },
   {
     question: "É assinatura?",
-    answer:
-      "Não. É uma compra única e vitalícia. Não existe cobrança mensal.",
+    answer: "Não. O pagamento é único, sem mensalidade, e o acesso é vitalício.",
   },
   {
-    question: "Quando recebo?",
+    question: "Tem garantia?",
     answer:
-      "Você recebe o acesso no e-mail informado no momento da compra. O material fica disponível na Kiwify após a confirmação do pagamento.",
+      "Sim. Você pode conhecer o material e solicitar reembolso dentro dos 7 dias de garantia.",
   },
 ] as const;
 
+// SEÇÃO 10 — FECHAMENTO EXCLUSIVO DO GUIA COMPLETO
 export const finalAnchor = {
-  eyebrow:
-    "Quando você quiser preparar\num banho,\num padê,\numa defumação\nou uma oferenda...",
-  h2: "Que a última pergunta não seja:\n\n“SERÁ QUE FIZ TUDO CERTO?”",
-  body: "Entenda antes.\nPrepare com mais segurança.",
-  offer: {
-    practice: "21 Práticas de Pombagira",
-    practicePrice: "R$37,90",
-    or: "ou",
-    box: "Guia Completo de Pombagira",
-    boxPrice: "R$47,90",
-  },
+  h2: "As práticas são o começo.\nVocê pode levar o conteúdo completo por R$10 a mais.",
+  lead: "No Guia Completo de Pombagira, você recebe:",
+  includes: [
+    "As 21 Práticas de Pombagira.",
+    "Código das Ervas.",
+    "Magia da Lua & Símbolos.",
+    "49 cards sobre Pombagira.",
+    "5 áudios para acompanhar as práticas.",
+  ],
+  // {price} é substituído pelo preço configurado em src/config/checkout.ts
+  total: "Tudo por {price}.",
+  micro: "Pagamento único • Acesso digital • 7 dias de garantia",
   cta: "QUERO O GUIA COMPLETO",
-  callback:
-    "Você não precisa decorar 21 práticas.\n\nPrecisa parar de fazer tudo na dúvida.",
 } as const;
 
 export const footerDisclaimer =

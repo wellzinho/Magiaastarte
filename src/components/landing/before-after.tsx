@@ -4,73 +4,56 @@ import { EditorialImage } from "@/components/ui/editorial-image";
 import { PombagiraIcon, type IconName } from "@/components/ui/pombagira-icon";
 import { ProofGallery } from "@/components/ui/proof-gallery";
 
-const beforeIcons = [
-  "search",
-  "bookmark",
-  "ask",
-  "search",
-  "spark",
-  "moon",
-  "path",
-] as const;
-
-const afterIcons = [
-  "heart",
-  "rose",
-  "star",
-  "bowl",
-  "trident",
-  "candle",
-  "ask",
-] as const;
-
 export function BeforeAfter() {
   return (
     <section>
       <div className="surface-vinho py-20 text-center md:py-28">
-        <p data-reveal className="eyebrow text-dourado">
-          {beforeAfter.eyebrow}
-        </p>
         <h2
           data-reveal
-          className="font-display section-headline section-shell mx-auto mt-5 max-w-2xl whitespace-pre-line text-marfim"
+          className="font-display section-headline section-shell mx-auto max-w-3xl text-marfim"
         >
           {beforeAfter.h2}
         </h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <FlowHalf
+        <Half
           label={beforeAfter.before.label}
-          items={beforeAfter.before.items}
-          icons={beforeIcons}
+          text={beforeAfter.before.text}
+          icon="search"
           tone="dark"
         />
-        <FlowHalf
+        <Half
           label={beforeAfter.after.label}
-          items={beforeAfter.after.items}
-          icons={afterIcons}
+          text={beforeAfter.after.text}
+          icon="candle"
           tone="light"
         />
       </div>
 
       <div className="surface-light py-16 md:py-20">
-        <div className="section-shell mx-auto max-w-2xl">
-          <EditorialImage image={landingImages.beforeAfter} light aspect="aspect-[10/11]" />
+        <div className="section-shell mx-auto max-w-2xl text-center">
+          <p
+            data-reveal
+            className="font-display text-[1.65rem] leading-snug text-vinho md:text-[2rem]"
+          >
+            {beforeAfter.complement}
+          </p>
+          <div className="mt-10">
+            <EditorialImage
+              image={landingImages.beforeAfter}
+              light
+              aspect="aspect-[10/11]"
+            />
+          </div>
         </div>
       </div>
 
       <div className="surface-preto py-24 md:py-32">
         <div className="section-shell">
-          <p
-            data-reveal
-            className="font-display display-statement mx-auto max-w-3xl whitespace-pre-line text-center text-marfim"
-          >
-            {beforeAfter.closing}
-          </p>
           <h3
             data-reveal
-            className="font-display mx-auto mt-16 max-w-xl whitespace-pre-line text-center text-[1.75rem] leading-tight text-ouro-claro md:text-4xl"
+            className="font-display mx-auto max-w-2xl text-center text-[1.75rem] leading-tight text-ouro-claro md:text-4xl"
           >
             {beforeAfter.proofH2}
           </h3>
@@ -81,15 +64,15 @@ export function BeforeAfter() {
   );
 }
 
-function FlowHalf({
+function Half({
   label,
-  items,
-  icons,
+  text,
+  icon,
   tone,
 }: {
   label: string;
-  items: readonly string[];
-  icons: readonly IconName[];
+  text: string;
+  icon: IconName;
   tone: "dark" | "light";
 }) {
   const isDark = tone === "dark";
@@ -101,44 +84,27 @@ function FlowHalf({
       }`}
     >
       <div className="mx-auto max-w-md">
+        <div className="flex items-center gap-3">
+          <span className={isDark ? "icon-seal" : "icon-seal-light"}>
+            <PombagiraIcon name={icon} />
+          </span>
+          <p
+            data-reveal
+            className={`eyebrow !text-[1rem] tracking-[0.16em] md:!text-[1.125rem] ${
+              isDark ? "text-dourado" : "text-vermelho"
+            }`}
+          >
+            {label}
+          </p>
+        </div>
         <p
           data-reveal
-          className={`eyebrow !text-[1.125rem] tracking-[0.16em] md:!text-[1.35rem] lg:!text-[1.5rem] ${
-            isDark ? "text-dourado" : "text-vermelho"
+          className={`font-display mt-6 text-[1.45rem] leading-snug md:text-[1.7rem] ${
+            isDark ? "text-marfim" : "text-vinho"
           }`}
         >
-          {label}
+          {text}
         </p>
-        <ol className="mt-8 space-y-3">
-          {items.map((item, index) => (
-            <li
-              key={item}
-              className={`flex flex-col items-center px-5 py-5 text-center ${
-                isDark ? "ritual-card" : "ritual-card-light"
-              }`}
-            >
-              <div className="flex items-center justify-center gap-3">
-                <span className={isDark ? "icon-seal" : "icon-seal-light"}>
-                  <PombagiraIcon name={icons[index]} />
-                </span>
-                <span
-                  className={`font-display text-xs tracking-[0.16em] ${
-                    isDark ? "text-dourado/70" : "text-vermelho/70"
-                  }`}
-                >
-                  0{index + 1}
-                </span>
-              </div>
-              <p
-                className={`mt-3 w-full text-center font-display text-[1.25rem] leading-snug md:text-[1.4rem] ${
-                  isDark ? "text-marfim" : "text-vinho"
-                }`}
-              >
-                {item.replace(/\n/g, " ")}
-              </p>
-            </li>
-          ))}
-        </ol>
       </div>
     </div>
   );

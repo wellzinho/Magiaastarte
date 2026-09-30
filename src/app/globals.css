@@ -473,6 +473,103 @@ body {
   background: linear-gradient(160deg, #32141b 0%, #1a0b0f 100%);
 }
 
+/* Offer block: two full cards + comparison table */
+.offer-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(138, 24, 39, 0.14);
+  background: linear-gradient(180deg, #fffcf7 0%, #f6efe3 100%);
+  box-shadow:
+    0 18px 44px rgba(27, 10, 15, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.6);
+  transition:
+    border-color 300ms var(--ease-editorial),
+    box-shadow 300ms var(--ease-editorial),
+    transform 300ms var(--ease-editorial);
+}
+
+.offer-card-complete {
+  border: 2px solid var(--vinho-profundo);
+}
+
+.offer-card.is-selected {
+  border-color: var(--vermelho-astarte);
+  box-shadow:
+    0 0 0 3px rgba(138, 24, 39, 0.22),
+    0 22px 54px rgba(138, 24, 39, 0.18);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .offer-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.offer-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vinho-profundo);
+  background: rgba(255, 250, 242, 0.94);
+  border: 1px solid rgba(138, 24, 39, 0.16);
+  box-shadow: 0 8px 20px rgba(27, 10, 15, 0.18);
+}
+
+.offer-badge-complete {
+  color: var(--marfim);
+  background: var(--vinho-profundo);
+  border-color: var(--vinho-profundo);
+}
+
+.offer-check {
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--vermelho-astarte);
+  background: rgba(138, 24, 39, 0.1);
+}
+
+.offer-tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--preto-astarte);
+  background: var(--dourado-envelhecido);
+  border: 1px solid rgba(255, 250, 242, 0.5);
+  box-shadow: 0 8px 20px rgba(27, 10, 15, 0.22);
+}
+
+.offer-compare {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(138, 24, 39, 0.14);
+  background: #fffcf7;
+  box-shadow: 0 18px 44px rgba(27, 10, 15, 0.08);
+}
+
+.offer-compare-head {
+  background: rgba(138, 24, 39, 0.07);
+}
+
+.offer-compare-row + .offer-compare-row th,
+.offer-compare-row + .offer-compare-row td {
+  border-top: 1px solid rgba(138, 24, 39, 0.1);
+}
+
+.offer-compare-foot {
+  background: var(--vinho-profundo);
+}
+
 .pain-card {
   background-color: var(--preto-astarte);
   border: 1px solid var(--card-border);
@@ -672,12 +769,13 @@ body {
   opacity: 1;
 }
 
-html.reveal-armed [data-reveal]:not(.is-visible) {
+/* Only elements the observer is actively tracking are hidden (opt-in via JS). */
+html.reveal-armed [data-reveal].reveal-pending {
   opacity: 0;
   transform: translateY(18px);
 }
 
-html.reveal-armed [data-reveal="image"]:not(.is-visible) {
+html.reveal-armed [data-reveal="image"].reveal-pending {
   transform: translateY(18px) scale(0.985);
 }
 

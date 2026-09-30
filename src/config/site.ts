@@ -17,7 +17,6 @@ export const siteConfig = {
     faq: "duvidas",
   },
   stickyCta: {
-    label: "Guia completo R$ 47,90",
     button: "Comprar",
   },
 } as const;
