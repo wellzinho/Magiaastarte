@@ -1,6 +1,5 @@
-import { getCheckoutHref } from "@/config/checkout";
 import { finalAnchor } from "@/data/landing-content";
-import { Button } from "@/components/ui/button";
+import { CheckoutButton } from "@/components/ui/checkout-button";
 import { PombagiraIcon } from "@/components/ui/pombagira-icon";
 
 export function FinalAnchor() {
@@ -45,13 +44,13 @@ export function FinalAnchor() {
             {offer.box} — {offer.boxPrice}
           </p>
           <div className="mt-8">
-            <Button
-              href={getCheckoutHref("autonomy")}
+            <CheckoutButton
+              planId="autonomy"
               variant="wine"
               className="w-full sm:w-auto"
             >
               {finalAnchor.cta}
-            </Button>
+            </CheckoutButton>
           </div>
         </div>
       </div>

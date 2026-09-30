@@ -1,6 +1,5 @@
-import { getCheckoutHref } from "@/config/checkout";
 import { costAnchor } from "@/data/landing-content";
-import { Button } from "@/components/ui/button";
+import { CheckoutButton } from "@/components/ui/checkout-button";
 import { PombagiraIcon } from "@/components/ui/pombagira-icon";
 
 const sequenceIcons = [
@@ -105,9 +104,9 @@ export function CostAnchor() {
             {costAnchor.closing}
           </p>
           <div className="mt-8">
-            <Button href={getCheckoutHref("practice")} className="w-full">
+            <CheckoutButton planId="practice" className="w-full">
               {costAnchor.cta}
-            </Button>
+            </CheckoutButton>
           </div>
         </div>
       </div>

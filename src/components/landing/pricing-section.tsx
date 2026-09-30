@@ -1,8 +1,8 @@
-import { getCheckoutHref, plans } from "@/config/checkout";
+import { plans } from "@/config/checkout";
 import { landingImages } from "@/config/landing-images";
 import { siteConfig } from "@/config/site";
 import { pricingSection } from "@/data/landing-content";
-import { Button } from "@/components/ui/button";
+import { CheckoutButton } from "@/components/ui/checkout-button";
 import { EditorialImage } from "@/components/ui/editorial-image";
 
 export function PricingSection() {
@@ -119,13 +119,13 @@ export function PricingSection() {
                   <p className="microcopy mt-3 text-bege">{paymentNote}</p>
 
                   <div className="mt-8">
-                    <Button
-                      href={getCheckoutHref(option.id)}
+                    <CheckoutButton
+                      planId={option.id}
                       variant="secondary"
                       className="w-full"
                     >
                       {option.cta}
-                    </Button>
+                    </CheckoutButton>
                   </div>
                 </article>
               );
@@ -175,9 +175,9 @@ export function PricingSection() {
                 <p className="microcopy mt-3 text-bege">{paymentNote}</p>
 
                 <div className="mt-9">
-                  <Button href={getCheckoutHref(option.id)} className="w-full">
+                  <CheckoutButton planId={option.id} className="w-full">
                     {option.cta}
-                  </Button>
+                  </CheckoutButton>
                 </div>
 
                 <p className="font-display mt-8 whitespace-pre-line text-center text-[1.55rem] tracking-wide text-ouro-claro md:text-2xl">

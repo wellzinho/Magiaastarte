@@ -1,7 +1,6 @@
-import { getCheckoutHref } from "@/config/checkout";
+import { CheckoutButton } from "@/components/ui/checkout-button";
 import { landingImages } from "@/config/landing-images";
 import { hero } from "@/data/landing-content";
-import { Button } from "@/components/ui/button";
 import { EditorialImage } from "@/components/ui/editorial-image";
 import { PombagiraIcon } from "@/components/ui/pombagira-icon";
 
@@ -99,9 +98,9 @@ export function Hero() {
               </p>
               <p className="microcopy mt-3 text-vinho/55">{hero.microcopy}</p>
               <div className="mt-5">
-                <Button href={getCheckoutHref("practice")} className="w-full">
+                <CheckoutButton planId="practice" className="w-full">
                   {hero.cta}
-                </Button>
+                </CheckoutButton>
               </div>
             </div>
           </div>

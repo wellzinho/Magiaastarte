@@ -7,6 +7,14 @@ export type PlanConfig = {
   priceDisplay: string;
 };
 
+const UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+] as const;
+
 export const plans: Record<PlanId, PlanConfig> = {
   practice: {
     id: "practice",
@@ -22,7 +30,42 @@ export const plans: Record<PlanId, PlanConfig> = {
   },
 };
 
-export function getCheckoutHref(planId: PlanId): string {
+export function getCheckoutHref(
+  planId: PlanId,
+  pageSearch?: string | URLSearchParams | null,
+): string {
   const url = plans[planId].checkoutUrl;
-  return url || `#${planId}-opcao`;
+  if (!url) {
+    return `#${planId}-opcao`;
+  }
+  return withPageUtms(url, pageSearch);
+}
+
+/** Copies utm_* from the sales page onto the checkout URL. Organic visits stay clean. */
+export function withPageUtms(
+  checkoutUrl: string,
+  pageSearch?: string | URLSearchParams | null,
+): string {
+  if (pageSearch == null || pageSearch === "") {
+    return checkoutUrl;
+  }
+
+  const incoming =
+    typeof pageSearch === "string"
+      ? new URLSearchParams(
+          pageSearch.startsWith("?") ? pageSearch.slice(1) : pageSearch,
+        )
+      : pageSearch;
+
+  const target = new URL(checkoutUrl);
+  for (const key of UTM_KEYS) {
+    if (target.searchParams.has(key)) {
+      continue;
+    }
+    const value = incoming.get(key);
+    if (value !== null && value !== "") {
+      target.searchParams.set(key, value);
+    }
+  }
+  return target.toString();
 }

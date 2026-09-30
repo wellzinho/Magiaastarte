@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCheckoutHref } from "@/config/checkout";
+import { CheckoutLink } from "@/components/ui/checkout-link";
 import { siteConfig } from "@/config/site";
 
 export function StickyCta() {
@@ -52,12 +52,12 @@ export function StickyCta() {
         <p className="text-[0.8125rem] font-medium tracking-[0.02em] text-marfim">
           {label}
         </p>
-        <a
-          href={getCheckoutHref("autonomy")}
+        <CheckoutLink
+          planId="autonomy"
           className="flex min-h-10 shrink-0 items-center justify-center rounded-full bg-dourado px-5 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-preto transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[.985]"
         >
           {button}
-        </a>
+        </CheckoutLink>
       </div>
     </div>
   );

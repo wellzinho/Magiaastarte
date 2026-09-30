@@ -1,5 +1,4 @@
 import { siteConfig } from "@/config/site";
-import { getCheckoutHref } from "@/config/checkout";
 import { landingImages } from "@/config/landing-images";
 import {
   afterProductsCta,
@@ -10,7 +9,7 @@ import {
   productLua,
   productPraticas,
 } from "@/data/landing-content";
-import { Button } from "@/components/ui/button";
+import { CheckoutButton } from "@/components/ui/checkout-button";
 import { EditorialImage } from "@/components/ui/editorial-image";
 import { PombagiraIcon } from "@/components/ui/pombagira-icon";
 
@@ -354,9 +353,9 @@ function LuaBand() {
             {productAudios.micro}
           </p>
           <div className="mt-8">
-            <Button href={getCheckoutHref("autonomy")} className="w-full sm:w-auto">
+            <CheckoutButton planId="autonomy" className="w-full sm:w-auto">
               {afterProductsCta.cta}
-            </Button>
+            </CheckoutButton>
           </div>
         </div>
       </div>
