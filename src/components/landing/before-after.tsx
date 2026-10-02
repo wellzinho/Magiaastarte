@@ -5,6 +5,8 @@ import { PombagiraIcon, type IconName } from "@/components/ui/pombagira-icon";
 import { ProofGallery } from "@/components/ui/proof-gallery";
 
 export function BeforeAfter() {
+  const [complementLead, complementRest] = beforeAfter.complement.split("\n");
+
   return (
     <section>
       <div className="surface-vinho py-20 text-center md:py-28">
@@ -32,13 +34,16 @@ export function BeforeAfter() {
       </div>
 
       <div className="surface-light py-16 md:py-20">
-        <div className="section-shell mx-auto max-w-2xl text-center">
-          <p
+        <div className="section-shell mx-auto max-w-3xl text-center">
+          <h3
             data-reveal
-            className="font-display text-[1.65rem] leading-snug text-vinho md:text-[2rem]"
+            className="font-display section-headline text-vinho"
           >
-            {beforeAfter.complement}
-          </p>
+            <span className="block">{complementLead}</span>
+            <span className="mt-3 block italic text-vermelho">
+              {complementRest}
+            </span>
+          </h3>
           <div className="mt-10">
             <EditorialImage
               image={landingImages.beforeAfter}

@@ -3,7 +3,7 @@ import type { PlanId } from "@/config/checkout";
 // SEÇÃO 1 — HERO
 export const hero = {
   eyebrow: "21 PRÁTICAS DE POMBAGIRA",
-  h1: "Práticas de Pombagira para o amor\nCom passo a passo para você aprender a atrair o amor que deseja",
+  h1: "Já tentou de tudo por esse amor?\nAgora aprenda a fazer sua própria prática de Pombagira!",
   subheadline:
     "Você vai aprender adoçamento, banhos, afoshé, padê e muito mais, além de aprender o preparo e o que cada elemento representa.",
   complement:
@@ -16,11 +16,11 @@ export const hero = {
 
 // SEÇÃO 2 — PROBLEMA E IDENTIFICAÇÃO
 export const painSection = {
-  h2: "A vontade de fazer uma prática não aparece do nada.",
+  h2: "A vontade de fazer uma prática de Pombagira não aparece do nada",
   triggers: [
     "Às vezes, tem saudade.",
     "Tem uma conversa que esfriou.",
-    "Tem vontade de se aproximar de alguém.",
+    "Tem vontade de trazer alguém de volta",
     "Ou de cuidar de você depois de uma relação que machucou.",
   ],
   search: [
@@ -236,10 +236,10 @@ export const beforeAfter = {
   },
   after: {
     label: "COM O GUIA",
-    text: "Você abre a prática, confere os materiais, lê as orientações e acompanha o preparo no mesmo lugar.",
+    text: "Você abre a prática, confere os materiais, lê as orientações e acompanha o preparo no mesmo lugar. Sem ajuda de pai/mãe de santo e sem precisar iniciar uma nova pesquisa.",
   },
   complement:
-    "O aprendizado aparece no que você passa a compreender e consegue consultar.",
+    "Você ainda quer tentar por esse amor.\nMas não quer fazer qualquer coisa.",
   proofH2:
     "Veja o que compradores disseram sobre a clareza e o conteúdo do material.",
   prints: [
