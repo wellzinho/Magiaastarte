@@ -8,19 +8,35 @@ export const hero = {
   format: "Guia digital • {price}",
   microcopy: "Acesso após a aprovação do pagamento • 7 dias de garantia",
   cta: "QUERO MEU AMOR DE VOLTA",
+  /** Copy e ênfase usadas só na composição mobile da hero. */
+  mobile: {
+    headline: "Quer conquistar alguém ou ter seu amor de volta?",
+    headlineEmphasis: "seu amor de volta",
+    subheadline:
+      "Práticas de Pombagira para o amor, com os materiais e o passo a passo para fazer com suas próprias mãos.",
+    microcopy: "Acesso após a aprovação do pagamento • Garantia de 7 dias",
+    cta: "QUERO MEU AMOR DE VOLTA",
+  },
 } as const;
 
 // SEÇÃO 2 — IDENTIFICAÇÃO E DESEJO
 export const painSection = {
   h2: "O que você queria era receber um “tô com saudade”.",
-  body: [
-    "Voltar a conversar. Sentir que a outra pessoa também quer estar perto. Não precisar ser sempre você quem procura.",
-    "É por isso que um adoçamento ou uma prática de aproximação chama sua atenção.",
+  h2Lead: "O que você queria era receber um",
+  h2Bubble: "tô com saudade",
+  desires: [
+    "Voltar a conversar.",
+    "Sentir que a outra pessoa também quer estar perto.",
+    "Não precisar ser sempre você quem procura.",
   ],
-  bridge:
-    "Mas, quando decide fazer, vem a dúvida: “Será que estou fazendo certo?”",
+  desireEmphasis: "também quer estar perto",
+  transition:
+    "É por isso que um adoçamento ou uma prática de aproximação chama sua atenção.",
+  doubtLead: "Mas, quando decide fazer, vem a dúvida:",
+  doubtQuestion: "Será que estou fazendo certo?",
   closing:
     "O 21 Práticas de Pombagira reúne o preparo e o fundamento para você entender o que usar e como fazer.",
+  productName: "21 Práticas de Pombagira",
 } as const;
 
 // SEÇÃO 3 — PRODUTO POR DENTRO
@@ -44,7 +60,7 @@ export const productSection = {
   ],
   closing:
     "Para consultar quando a dúvida aparece — inclusive com os materiais já na sua frente.",
-  cta: "QUERO AS 21 PRÁTICAS",
+  cta: "QUERO MEU AMOR DE VOLTA",
 } as const;
 
 // SEÇÃO 4 — CONFIANÇA E DEPOIMENTOS
@@ -118,42 +134,24 @@ export const trustSection = {
   ],
 } as const;
 
-// SEÇÃO 5 — OFERTA ÚNICA E GARANTIA
+// SEÇÃO 5 — APRESENTAÇÃO INTERNA + OFERTA ÚNICA E GARANTIA
 export const offerSection = {
-  h2: "Encontrou uma prática para o amor.\nAgora precisa entender como fazer.",
-  questions: [
-    "Qual material usar?",
-    "Como preparar?",
-    "Para que serve cada elemento?",
-  ],
-  body: [
-    { text: "No " },
-    { text: "21 Práticas de Pombagira", emphasis: true },
-    { text: ", essas explicações acompanham o " },
-    { text: "passo a passo", emphasis: true },
-    { text: ". Você pode " },
-    { text: "consultar o material", emphasis: true },
-    { text: " " },
-    { text: "enquanto prepara", emphasis: true },
-    { text: ", sem depender de lembrar tudo o que viu em um vídeo." },
-  ],
-  galleryTitle: "Veja como é por dentro",
+  h2Lead: "Um adoçamento. Uma aproximação.",
+  h2Question: "Qual prática você veio procurar?",
+  description:
+    "Se a vontade é ter esse amor de volta, conheça por dentro o material que ensina você a preparar suas próprias práticas de Pombagira.",
+  galleryHintMobile: "Deslize para ver as páginas. Toque para ampliar.",
+  galleryHintDesktop: "Clique na imagem para ampliar.",
+  galleryClosing:
+    "É esse material que você recebe para consultar no celular e acompanhar durante o preparo.",
+  galleryClosingEmphasis: "É esse material que você recebe",
   gallery: [
-    {
-      imageKey: "practicesCover" as const,
-      caption: "Padê de mel para harmonização",
-    },
-    {
-      imageKey: "practicesInside01" as const,
-      caption: "Afoshé de Atração e Magnetismo — materiais e etapas",
-    },
-    {
-      imageKey: "practicesInside02" as const,
-      caption: "Defumador de Pombagira — preparo explicado",
-    },
+    { imageKey: "practicesCover" as const },
+    { imageKey: "practicesInside01" as const },
+    { imageKey: "practicesInside02" as const },
   ],
   name: "21 Práticas de Pombagira",
-  description:
+  descriptionOffer:
     "Um guia digital com 21 práticas para o amor, com tudo que você precisa para ter o seu amor de volta.",
   includes: [
     "21 práticas reunidas em um material digital.",
@@ -162,7 +160,7 @@ export const offerSection = {
     "Conteúdo para consultar no celular.",
   ],
   condition: "Pagamento único.",
-  cta: "QUERO ACESSAR AS 21 PRÁTICAS",
+  cta: "QUERO MEU AMOR DE VOLTA",
   micro: "Pagamento pela Kiwify • Pix ou cartão",
   guaranteeTitle: "7 dias para conhecer o material.",
   guaranteeBody:

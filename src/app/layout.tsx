@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${inter.variable} h-full`}>
-      <body className="min-h-full flex flex-col antialiased pb-16 md:pb-0">
+      <body className="min-h-full flex flex-col antialiased pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:pb-0">
         <MetaPixel />
         {children}
       </body>

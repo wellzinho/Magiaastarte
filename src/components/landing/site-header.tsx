@@ -20,13 +20,13 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
       <div
-        className={`nav-shell mx-auto flex max-w-[78rem] items-center justify-between rounded-full text-marfim ${
+        className={`site-header-bar mx-auto flex max-w-[78rem] items-center justify-between rounded-full text-marfim ${
           compact
-            ? "min-h-11 px-4 py-2 md:min-h-12 md:px-5"
-            : "min-h-12 px-4 py-2 md:min-h-14 md:px-6"
+            ? "min-h-11 px-4 py-1.5 md:min-h-12 md:px-5 md:py-2"
+            : "min-h-12 px-4 py-2 md:min-h-14 md:px-6 md:py-2"
         }`}
       >
-        <Logo />
+        <Logo className="text-[1.05rem] tracking-wide md:text-xl" />
         <Button
           href={`#${siteConfig.anchors.pricing}`}
           variant="outline"

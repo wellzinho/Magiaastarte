@@ -7,6 +7,7 @@ type EditorialImageProps = {
   light?: boolean;
   className?: string;
   aspect?: string;
+  imageClassName?: string;
   preload?: boolean;
   /** Disable for content that re-renders after mount (the reveal observer only runs once). */
   reveal?: boolean;
@@ -18,6 +19,7 @@ export function EditorialImage({
   light = false,
   className = "",
   aspect = "aspect-[4/5]",
+  imageClassName = "object-cover object-center",
   preload = false,
   reveal = true,
   children,
@@ -51,7 +53,7 @@ export function EditorialImage({
         fill
         preload={preload}
         sizes="(min-width: 1024px) 58vw, 100vw"
-        className="object-cover object-center"
+        className={imageClassName}
       />
       {children ? (
         <div className="photo-caption">

@@ -3,79 +3,68 @@ import { siteConfig } from "@/config/site";
 import { offerSection } from "@/data/landing-content";
 import { OfferGallery } from "@/components/landing/offer-gallery";
 import { CheckoutButton } from "@/components/ui/checkout-button";
-import { PombagiraIcon, type IconName } from "@/components/ui/pombagira-icon";
 
-const questionIcons: IconName[] = ["bowl", "candle", "ask"];
+function ClosingLine({ text, emphasis }: { text: string; emphasis: string }) {
+  if (!text.includes(emphasis)) {
+    return <>{text}</>;
+  }
+
+  const index = text.indexOf(emphasis);
+  return (
+    <>
+      <span className="font-medium text-vinho/85">{emphasis}</span>
+      {text.slice(index + emphasis.length)}
+    </>
+  );
+}
 
 export function PricingSection() {
   const practice = plans.practice;
-  const [h2Lead, h2Rest] = offerSection.h2.split("\n");
 
   return (
     <section
       id={siteConfig.anchors.pricing}
-      className="section-spacing scroll-mt-28 surface-light md:scroll-mt-32"
+      className="offer-preview scroll-mt-28 surface-light md:scroll-mt-32"
     >
-      <div className="section-shell max-w-xl">
-        <header>
-          <div className="text-center">
-            <h2
-              data-reveal
-              className="font-display text-[1.85rem] leading-[1.15] tracking-[-0.02em] text-vinho md:text-[2.35rem]"
-            >
-              <span className="block">{h2Lead}</span>
-              <span className="mt-2 block italic text-vermelho">{h2Rest}</span>
-            </h2>
-          </div>
-
-          <ul
-            data-reveal
-            className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3"
-            aria-label="Dúvidas no preparo"
-          >
-            {offerSection.questions.map((question, index) => (
-              <li
-                key={question}
-                className="ritual-card-light flex items-center gap-3 px-4 py-4 sm:flex-col sm:items-center sm:px-3 sm:py-5 sm:text-center"
-              >
-                <span className="icon-seal-light shrink-0">
-                  <PombagiraIcon name={questionIcons[index] ?? "ask"} />
-                </span>
-                <p className="font-display text-[1.2rem] leading-snug text-vinho md:text-[1.3rem]">
-                  {question}
-                </p>
-              </li>
-            ))}
-          </ul>
-
-          <p
-            data-reveal
-            className="mx-auto mt-7 max-w-md text-center text-[1.05rem] leading-relaxed text-vinho/70 md:text-[1.125rem]"
-          >
-            {offerSection.body.map((part, index) =>
-              "emphasis" in part && part.emphasis ? (
-                <strong key={index} className="font-semibold text-vinho">
-                  {part.text}
-                </strong>
-              ) : (
-                <span key={index}>{part.text}</span>
-              ),
-            )}
+      <div className="section-shell max-w-5xl px-5 md:px-[var(--section-px)]">
+        <header className="offer-preview-intro">
+          <h2 data-reveal id="offer-gallery-label" className="offer-preview-title">
+            <span className="offer-preview-lead">{offerSection.h2Lead}</span>
+            <span className="offer-preview-question font-display">
+              {offerSection.h2Question}
+            </span>
+          </h2>
+          <p data-reveal className="offer-preview-description">
+            {offerSection.description}
           </p>
         </header>
 
-        <OfferGallery />
+        <div className="offer-preview-media">
+          <OfferGallery />
+          <p data-reveal className="offer-preview-hint md:hidden">
+            {offerSection.galleryHintMobile}
+          </p>
+          <p data-reveal className="offer-preview-hint hidden md:block">
+            {offerSection.galleryHintDesktop}
+          </p>
+          <p data-reveal className="offer-preview-closing">
+            <ClosingLine
+              text={offerSection.galleryClosing}
+              emphasis={offerSection.galleryClosingEmphasis}
+            />
+          </p>
+        </div>
 
         <article
           data-reveal
-          className="ritual-card-light mx-auto mt-10 overflow-hidden px-6 py-8 md:mt-12 md:px-9 md:py-10"
+          className="ritual-card-light mx-auto mt-10 max-w-xl overflow-hidden px-6 py-8 md:mt-12 md:px-9 md:py-10"
         >
           <p className="eyebrow text-vermelho">PRODUTO</p>
           <h3 className="font-display mt-3 text-[1.85rem] leading-tight text-vinho md:text-[2.25rem]">
             {offerSection.name}
           </h3>
           <p className="mt-4 text-[1.0625rem] leading-relaxed text-vinho/80">
-            {offerSection.description}
+            {offerSection.descriptionOffer}
           </p>
 
           <ul className="mt-6 space-y-3">

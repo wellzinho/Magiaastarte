@@ -13,11 +13,13 @@ export function StickyCta() {
   useEffect(() => {
     const heroCta = document.getElementById("hero-cta");
     const pricing = document.getElementById(siteConfig.anchors.pricing);
+    const mobileMq = window.matchMedia("(max-width: 767px)");
     let heroCtaLeft = false;
     let inPricing = false;
 
     const update = () => {
-      setVisible(heroCtaLeft && !inPricing);
+      // Sticky is mobile-only; ignore desktop where the mobile #hero-cta is display:none.
+      setVisible(mobileMq.matches && heroCtaLeft && !inPricing);
     };
 
     const heroObserver = heroCta
@@ -44,12 +46,17 @@ export function StickyCta() {
         )
       : null;
 
+    const onBreakpoint = () => update();
+
     if (heroCta && heroObserver) heroObserver.observe(heroCta);
     if (pricing && pricingObserver) pricingObserver.observe(pricing);
+    mobileMq.addEventListener("change", onBreakpoint);
+    update();
 
     return () => {
       heroObserver?.disconnect();
       pricingObserver?.disconnect();
+      mobileMq.removeEventListener("change", onBreakpoint);
     };
   }, []);
 
