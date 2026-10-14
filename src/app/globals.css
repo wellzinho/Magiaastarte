@@ -292,8 +292,9 @@ body {
 }
 
 .hero-headline {
-  font-size: clamp(2.75rem, 11vw, 4rem);
-  line-height: 1.08;
+  /* Long question headline: smaller base on mobile so it doesn't dominate the viewport */
+  font-size: clamp(1.85rem, 1.15rem + 3.2vw, 2.4rem);
+  line-height: 1.18;
   letter-spacing: -0.02em;
   font-weight: 600;
   overflow-wrap: anywhere;
@@ -303,8 +304,8 @@ body {
 
 @media (min-width: 768px) {
   .hero-headline {
-    font-size: clamp(3.35rem, 5vw + 1.1rem, 5.25rem);
-    line-height: 1.08;
+    font-size: clamp(2.75rem, 2rem + 2.2vw, 4.25rem);
+    line-height: 1.1;
   }
 }
 

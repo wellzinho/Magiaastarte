@@ -5,22 +5,34 @@ import { plans } from "@/config/checkout";
 import { siteConfig } from "@/config/site";
 import { CheckoutLink } from "@/components/ui/checkout-link";
 
-// The sticky bar always sells the Guia Completo, so the price shown must match its checkout.
-const plan = plans.autonomy;
+const plan = plans.practice;
 
 export function StickyCta() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const heroCta = document.getElementById("hero-cta");
     const pricing = document.getElementById(siteConfig.anchors.pricing);
+    let heroCtaLeft = false;
     let inPricing = false;
 
     const update = () => {
-      const scrolledPastFold = window.scrollY > window.innerHeight * 0.85;
-      setVisible(scrolledPastFold && !inPricing);
+      setVisible(heroCtaLeft && !inPricing);
     };
 
-    const onScroll = () => update();
+    const heroObserver = heroCta
+      ? new IntersectionObserver(
+          ([entry]) => {
+            if (!entry.isIntersecting) {
+              heroCtaLeft = true;
+            } else {
+              heroCtaLeft = false;
+            }
+            update();
+          },
+          { threshold: 0, rootMargin: "0px" },
+        )
+      : null;
 
     const pricingObserver = pricing
       ? new IntersectionObserver(
@@ -32,12 +44,11 @@ export function StickyCta() {
         )
       : null;
 
+    if (heroCta && heroObserver) heroObserver.observe(heroCta);
     if (pricing && pricingObserver) pricingObserver.observe(pricing);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      heroObserver?.disconnect();
       pricingObserver?.disconnect();
     };
   }, []);
@@ -48,17 +59,17 @@ export function StickyCta() {
     <div
       className="sticky-bar fixed inset-x-0 bottom-0 z-40 px-4 py-2.5 md:hidden"
       role="region"
-      aria-label="Atalho para o checkout do Guia Completo"
+      aria-label="Atalho para o checkout das 21 Práticas"
     >
       <div className="flex items-center justify-between gap-3">
         <p className="min-w-0 text-[0.8125rem] font-medium tracking-[0.02em] text-marfim">
-          <span className="block truncate">{plan.name}</span>
+          <span className="block truncate">{siteConfig.stickyCta.label}</span>
           <span className="font-display text-[1.05rem] leading-none text-ouro-claro">
             {plan.priceDisplay}
           </span>
         </p>
         <CheckoutLink
-          planId="autonomy"
+          planId="practice"
           className="flex min-h-10 shrink-0 items-center justify-center rounded-full bg-dourado px-5 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-preto transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[.985]"
         >
           {siteConfig.stickyCta.button}

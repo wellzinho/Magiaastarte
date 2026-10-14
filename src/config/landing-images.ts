@@ -6,8 +6,9 @@ export type LandingImage = {
 
 export const landingImages = {
   hero: {
-    src: "/imagens/imagemdentro.png",
-    alt: "Mulher lendo o guia 21 Práticas de Pombagira aberto nas Práticas 20 e 21, com o livro fechado à frente",
+    // Capa + Padê de Bombom (prática de adoçamento). Evita a abertura financeira.
+    src: "/imagens/21pratica.png",
+    alt: "Guia digital 21 Práticas de Pombagira: capa e páginas da Prática 07 — Padê de Bombom para adoçar",
     placeholder: "HERO_21_PRATICAS",
   },
   problem: {
@@ -27,12 +28,12 @@ export const landingImages = {
   },
   practicesCover: {
     src: "/imagens/imagemdentro.png",
-    alt: "Capa e páginas internas do guia 21 Práticas de Pombagira",
+    alt: "Páginas internas do guia 21 Práticas de Pombagira — Padê de Mel e Padê financeiro, com a capa ao lado",
     placeholder: "PRATICAS_COVER",
   },
   practicesInside01: {
     src: "/imagens/imagemdentro2.png",
-    alt: "Páginas internas do guia 21 Práticas de Pombagira — Afoshé de Atração",
+    alt: "Páginas internas do guia 21 Práticas de Pombagira — Prática 17, Afoshé de Atração e Magnetismo",
     placeholder: "PRATICAS_INSIDE_01",
   },
   practicesInside02: {

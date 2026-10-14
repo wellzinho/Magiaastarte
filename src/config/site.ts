@@ -17,6 +17,7 @@ export const siteConfig = {
     faq: "duvidas",
   },
   stickyCta: {
-    button: "Comprar",
+    label: "21 Práticas",
+    button: "QUERO MEU AMOR",
   },
 } as const;

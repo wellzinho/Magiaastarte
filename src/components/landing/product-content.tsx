@@ -1,96 +1,82 @@
-import { siteConfig } from "@/config/site";
 import { landingImages } from "@/config/landing-images";
-import { productPraticas } from "@/data/landing-content";
-import { EditorialImage } from "@/components/ui/editorial-image";
+import { siteConfig } from "@/config/site";
+import { productSection } from "@/data/landing-content";
 import { CheckoutButton } from "@/components/ui/checkout-button";
-import { PombagiraIcon } from "@/components/ui/pombagira-icon";
+import { EditorialImage } from "@/components/ui/editorial-image";
+import { PombagiraIcon, type IconName } from "@/components/ui/pombagira-icon";
 
-const layerIcons = [
-  "heart",
-  "moon",
-  "bowl",
-  "ask",
-  "candle",
-  "rose",
-  "smoke",
-  "spark",
-] as const;
+const pointIcons: IconName[] = ["bowl", "candle", "ask"];
 
 export function ProductContent() {
   return (
     <section
       id={siteConfig.anchors.content}
-      className="section-spacing scroll-mt-28 surface-vinho text-marfim md:scroll-mt-32"
+      className="section-spacing surface-light scroll-mt-28 md:scroll-mt-32"
     >
       <div className="section-shell">
-        <div className="mx-auto max-w-3xl text-center">
-          <p data-reveal className="eyebrow text-dourado">
-            {productPraticas.eyebrow}
-          </p>
+        <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-none lg:text-left">
           <h2
             data-reveal
-            data-reveal-delay="1"
-            className="font-display section-headline mt-4"
+            className="font-display section-headline text-vinho"
           >
-            {productPraticas.h2}
+            {productSection.h2}
           </h2>
-          <p data-reveal className="lead-text mt-8 text-bege">
-            {productPraticas.body}
-          </p>
           <p
             data-reveal
-            className="font-display mt-4 text-[1.55rem] italic leading-snug text-ouro-claro md:text-[1.85rem]"
+            className="lead-text mx-auto mt-5 max-w-2xl text-vinho/80 lg:mx-0"
           >
-            {productPraticas.focus}
+            {productSection.intro}
           </p>
         </div>
 
-        <div className="mx-auto mt-14 max-w-3xl md:mt-16">
-          <p data-reveal className="eyebrow text-center text-dourado">
-            {productPraticas.layersLead}
-          </p>
-          <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {productPraticas.layers.map((layer, index) => (
-              <li
-                key={layer}
-                className="ritual-card flex items-center gap-4 px-5 py-4"
-              >
-                <span className="icon-seal">
-                  <PombagiraIcon name={layerIcons[index]} />
-                </span>
-                <span className="font-display text-[1.25rem] leading-snug text-marfim md:text-[1.4rem]">
-                  {layer}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-8 lg:mt-14 lg:grid-cols-12 lg:items-start lg:gap-12">
+          <div className="lg:col-span-5">
+            <EditorialImage
+              image={landingImages.practicesInside01}
+              light
+              aspect="aspect-[4/5]"
+            />
+            <p className="microcopy mt-3 text-center text-vinho/50">
+              Prévia de página real — Afoshé de Atração.
+            </p>
+          </div>
 
-        <p
-          data-reveal
-          className="font-display mt-16 text-center text-[1.55rem] leading-snug text-marfim md:mt-20 md:text-[1.85rem]"
-        >
-          {productPraticas.galleryLead}
-        </p>
-        <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-          <EditorialImage
-            image={landingImages.practicesThumb}
-            aspect="aspect-[4/5]"
-          />
-          <EditorialImage
-            image={landingImages.practicesInside01}
-            aspect="aspect-[4/5]"
-          />
-          <EditorialImage
-            image={landingImages.practicesInside02}
-            aspect="aspect-[4/5]"
-          />
-        </div>
+          <div className="lg:col-span-7">
+            <ul className="grid grid-cols-1 gap-4">
+              {productSection.points.map((point, index) => (
+                <li
+                  key={point.title}
+                  data-reveal
+                  className="ritual-card-light flex gap-4 px-5 py-5 md:px-6"
+                >
+                  <span className="icon-seal-light shrink-0">
+                    <PombagiraIcon name={pointIcons[index] ?? "candle"} />
+                  </span>
+                  <div>
+                    <p className="font-display text-[1.35rem] leading-snug text-vinho md:text-[1.5rem]">
+                      {point.title}
+                    </p>
+                    <p className="mt-1.5 text-[1.0625rem] leading-relaxed text-vinho/75">
+                      {point.text}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-        <div data-reveal className="mt-12 text-center md:mt-14">
-          <CheckoutButton planId="practice" className="w-full sm:w-auto">
-            {productPraticas.cta}
-          </CheckoutButton>
+            <p
+              data-reveal
+              className="font-display mt-8 text-[1.35rem] italic leading-snug text-vermelho md:text-[1.55rem]"
+            >
+              {productSection.closing}
+            </p>
+
+            <div data-reveal className="mt-8">
+              <CheckoutButton planId="practice" className="w-full sm:w-auto">
+                {productSection.cta}
+              </CheckoutButton>
+            </div>
+          </div>
         </div>
       </div>
     </section>
