@@ -65,16 +65,18 @@ export function Hero() {
         <div
           data-reveal
           data-reveal-delay="2"
-          className="hero-mobile-photo relative mt-4 w-full"
+          className="hero-mobile-photo mt-4 w-full px-5"
         >
-          <Image
-            src={landingImages.hero.src}
-            alt={landingImages.hero.alt}
-            fill
-            preload
-            sizes="100vw"
-            className="object-cover object-[50%_22%]"
-          />
+          <div className="hero-mobile-photo-media relative">
+            <Image
+              src={landingImages.hero.src}
+              alt={landingImages.hero.alt}
+              fill
+              preload
+              sizes="100vw"
+              className="object-cover object-[50%_22%]"
+            />
+          </div>
         </div>
 
         <div className="px-5 pt-4">
