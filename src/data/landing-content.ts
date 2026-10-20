@@ -78,6 +78,18 @@ export const trustSection = {
       height: 94,
     },
     {
+      src: "/provas/prova4.png",
+      alt: "Depoimento de Sara Vales: recebeu o e-book, fácil de compreender, ajuda muito, super recomenda.",
+      width: 331,
+      height: 76,
+    },
+    {
+      src: "/provas/prova9.png",
+      alt: "Depoimento de marciasaraivamarcia: muito satisfeita com o e-book, suporte maravilhoso e explicações com carinho.",
+      width: 331,
+      height: 90,
+    },
+    {
       src: "/provas/prova7.png",
       alt: "Depoimento de a_voz_do_divino_oficial: conteúdo de altíssima qualidade, vale muito a pena, padês de confiança.",
       width: 331,
@@ -100,18 +112,6 @@ export const trustSection = {
       alt: "Depoimento de heliosoaresterapeutaholistico: problema solucionado, atendimento atencioso, material excelente.",
       width: 656,
       height: 204,
-    },
-    {
-      src: "/provas/prova4.png",
-      alt: "Depoimento de Sara Vales: recebeu o e-book, fácil de compreender, ajuda muito, super recomenda.",
-      width: 331,
-      height: 76,
-    },
-    {
-      src: "/provas/prova9.png",
-      alt: "Depoimento de marciasaraivamarcia: muito satisfeita com o e-book, suporte maravilhoso e explicações com carinho.",
-      width: 331,
-      height: 90,
     },
     {
       src: "/provas/prova6.png",

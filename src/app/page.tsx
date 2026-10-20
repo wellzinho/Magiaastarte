@@ -20,8 +20,8 @@ export default function Home() {
         <Hero />
         <PainSection />
         <ProductContent />
-        <AuthoritySection />
         <PricingSection />
+        <AuthoritySection />
         <Faq />
       </main>
       <SiteFooter />
