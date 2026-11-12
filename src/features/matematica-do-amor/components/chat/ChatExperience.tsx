@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useReducer, useRef, useState, type FormEvent } from "react";
 import { SYMBOLIC_NOTE } from "../../content/steps";
 import { PAID_CHAPTERS } from "../../domain/chapters";
-import { answersOf, profileReady, reduceSession } from "../../domain/flow";
+import { profileReady, reduceSession } from "../../domain/flow";
 import {
   trackMdaAddPaymentInfo,
   trackMdaCompraConcluida,
@@ -21,6 +21,7 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL, type ReadingSource } from "../../domai
 import { PAYMENT_ONCE, PREPARING_LABEL, PRICE_LABEL, PIX_STATUS, isPayerEmail } from "../../domain/payment";
 import { attachPaymentResumeListeners } from "../../domain/payment-visibility";
 import { nextRevealCount, revealDelay, sessionHasProgress } from "../../domain/reveal";
+import { previewAttemptKey, readingPayload } from "../../domain/reading-request";
 import { clearSession, loadSession, saveSession } from "../../domain/session";
 import { initialState, type DateParts, type PersonFigures, type PersonSide, type PlanRow, type PreviewView, type TextBlock } from "../../domain/types";
 import styles from "./chat.module.css";
@@ -74,6 +75,8 @@ export function ChatExperience() {
   const [state, dispatch] = useReducer(reduceSession, boot.loaded);
   /** Só dispara a prévia depois do cookie HttpOnly estar vinculado no servidor. */
   const [sessionReady, setSessionReady] = useState(false);
+  /** Impede novo POST automático depois de um 4xx para a mesma tentativa. */
+  const previewBlockRef = useRef<string | null>(null);
   const stateRef = useRef(state);
   const [shownCount, setShownCount] = useState(boot.count);
   const [busy, setBusy] = useState(false);
@@ -181,32 +184,30 @@ export function ChatExperience() {
     };
   }, []);
 
+  const attemptKey = previewAttemptKey(state);
+  const canPreview =
+    sessionReady &&
+    !state.preview &&
+    !state.previewError &&
+    profileReady(state) &&
+    Boolean(state.sessionId && state.yourName && state.theirName && state.yourDate && state.theirDate);
   useEffect(() => {
-    if (
-      !sessionReady ||
-      state.preview ||
-      state.previewError ||
-      !profileReady(state) ||
-      !state.sessionId ||
-      !state.yourName ||
-      !state.theirName ||
-      !state.yourDate ||
-      !state.theirDate
-    ) {
-      return;
-    }
+    if (!canPreview) return;
+    if (previewBlockRef.current === attemptKey) return;
     const controller = new AbortController();
     const timer = window.setTimeout(() => {
       void fetch("/api/leitura/previa", {
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(readingPayload(state)),
+        body: JSON.stringify(readingPayload(stateRef.current)),
         signal: controller.signal,
       })
         .then(async (response) => {
           if (!response.ok) {
-            // Código técnico fica só no servidor/logs; UI permanece genérica.
+            if (response.status >= 400 && response.status < 500) {
+              previewBlockRef.current = attemptKey;
+            }
             await response.json().catch(() => null);
             throw new Error("preview");
           }
@@ -215,6 +216,7 @@ export function ChatExperience() {
         .then((preview) => dispatch({ type: "set-preview", preview }))
         .catch((error: unknown) => {
           if (error instanceof DOMException && error.name === "AbortError") return;
+          previewBlockRef.current = attemptKey;
           dispatch({ type: "preview-error" });
         });
     }, 0);
@@ -222,7 +224,7 @@ export function ChatExperience() {
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [state, sessionReady]);
+  }, [canPreview, attemptKey]);
 
   useEffect(() => {
     if (!state.orderId || !state.sessionId || state.payment !== "idle" || state.awaitingPixEmail) return;
@@ -478,6 +480,7 @@ export function ChatExperience() {
       return;
     }
     if (id === "retry-preview") {
+      previewBlockRef.current = null;
       commit({ type: "retry-preview" });
       return;
     }
@@ -1141,18 +1144,6 @@ function PixCard({
       )}
     </section>
   );
-}
-
-function readingPayload(state: Parameters<typeof present>[0]) {
-  return {
-    sessionId: state.sessionId,
-    answers: answersOf(state),
-    yourName: state.yourName,
-    theirName: state.theirName,
-    yourDate: state.yourDate,
-    theirDate: state.theirDate,
-    formatId: state.formatId,
-  };
 }
 
 function SaveCard({ source }: { source: ReadingSource }) {

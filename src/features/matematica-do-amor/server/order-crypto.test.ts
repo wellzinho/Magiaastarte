@@ -18,7 +18,7 @@ function sample(): Order {
     pixCopyPaste: null,
     qrSvg: null,
     ticketUrl: null,
-    buyerFirstName: "Ana",
+    buyerFirstName: "PessoaUnicaDoTesteDeCifra",
     pixLock: false,
     chargeState: "open",
     testMode: true,
@@ -42,8 +42,8 @@ describe("order crypto", () => {
   it("não grava PII em texto puro quando a chave existe", () => {
     process.env.MDA_DATA_ENCRYPTION_KEY = KEY_HEX;
     const sealed = sealOrder(sample());
-    expect(JSON.stringify(sealed)).not.toContain("Ana");
-    expect(openOrder(sealed)?.buyerFirstName).toBe("Ana");
+    expect(JSON.stringify(sealed)).not.toContain("PessoaUnicaDoTesteDeCifra");
+    expect(openOrder(sealed)?.buyerFirstName).toBe("PessoaUnicaDoTesteDeCifra");
   });
 
   it("falha fechado em produção sem chave ao selar", () => {

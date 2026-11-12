@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
   const parsed = parseReadingRequest(body.value, new Date());
   if ("error" in parsed) {
-    return previewFail("MDA_PREVIEW_INVALID_INPUT", 400, parsed.error);
+    return previewFail(parsed.code, 400, parsed.error);
   }
 
   const sessionBlock = await assertSessionBinding(request, parsed.sessionId);

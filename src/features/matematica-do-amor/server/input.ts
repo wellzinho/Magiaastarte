@@ -15,29 +15,63 @@ export type ReadingRequest = {
 
 const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
 
-export function parseReadingRequest(value: unknown, today: Date): ReadingRequest | { error: string } {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return { error: "Pedido inválido." };
+export type ParseFailure = { error: string; code: PreviewInputCode };
+
+export type PreviewInputCode =
+  | "MDA_PREVIEW_INVALID_INPUT"
+  | "MDA_PREVIEW_INVALID_YOUR_NAME"
+  | "MDA_PREVIEW_INVALID_THEIR_NAME"
+  | "MDA_PREVIEW_INVALID_YOUR_BIRTH_DATE"
+  | "MDA_PREVIEW_INVALID_THEIR_BIRTH_DATE"
+  | "MDA_PREVIEW_MISSING_FIELD"
+  | "MDA_PREVIEW_INVALID_ENUM";
+
+function fail(code: PreviewInputCode, error: string): ParseFailure {
+  return { error, code };
+}
+
+export function parseReadingRequest(value: unknown, today: Date): ReadingRequest | ParseFailure {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return fail("MDA_PREVIEW_INVALID_INPUT", "Pedido inválido.");
   const body = value as Record<string, unknown>;
   const keys = Object.keys(body);
-  if (keys.length > 12) return { error: "Pedido inválido." };
-  if (typeof body.sessionId !== "string" || !/^[0-9a-f-]{36}$/i.test(body.sessionId)) return { error: "Sessão inválida." };
+  if (keys.length > 12) return fail("MDA_PREVIEW_INVALID_INPUT", "Pedido inválido.");
+  if (typeof body.sessionId !== "string" || !/^[0-9a-f-]{36}$/i.test(body.sessionId)) {
+    return fail("MDA_PREVIEW_MISSING_FIELD", "Sessão inválida.");
+  }
   const answers = readAnswers(body.answers);
-  if (!answers || !quizComplete(answers)) return { error: "O quiz ainda não está completo." };
-  if (typeof body.yourName !== "string" || typeof body.theirName !== "string") return { error: "Faltam os nomes." };
+  if (!answers || !quizComplete(answers)) return fail("MDA_PREVIEW_INVALID_ENUM", "O quiz ainda não está completo.");
+  if (typeof body.yourName !== "string") return fail("MDA_PREVIEW_INVALID_YOUR_NAME", "Faltam os nomes.");
+  if (typeof body.theirName !== "string") return fail("MDA_PREVIEW_INVALID_THEIR_NAME", "Faltam os nomes.");
   const yourName = cleanName(body.yourName);
+  if (!yourName) return fail("MDA_PREVIEW_INVALID_YOUR_NAME", "Faltam os nomes.");
   const theirName = cleanName(body.theirName);
-  if (!yourName || !theirName) return { error: "Faltam os nomes." };
+  if (!theirName) return fail("MDA_PREVIEW_INVALID_THEIR_NAME", "Faltam os nomes.");
   const yourDate = readDate(body.yourDate);
+  if (!yourDate || !validateBirthDate(yourDate, today).ok) return fail("MDA_PREVIEW_INVALID_YOUR_BIRTH_DATE", "Faltam datas válidas.");
   const theirDate = readDate(body.theirDate);
-  if (!yourDate || !theirDate || !validateBirthDate(yourDate, today).ok || !validateBirthDate(theirDate, today).ok) {
-    return { error: "Faltam datas válidas." };
-  }
-  if ("error" in nameNumbers(yourName) || "error" in nameNumbers(theirName)) {
-    return { error: "Usa uma grafia em alfabeto latino que você reconheça." };
-  }
-  const formatId = typeof body.formatId === "string" ? cleanToken(body.formatId, 64) : undefined;
-  if (body.formatId !== undefined && !formatId) return { error: "Falta a entrega." };
-  return { sessionId: body.sessionId, answers, yourName, theirName, yourDate, theirDate, formatId: formatId ?? undefined };
+  if (!theirDate || !validateBirthDate(theirDate, today).ok) return fail("MDA_PREVIEW_INVALID_THEIR_BIRTH_DATE", "Faltam datas válidas.");
+  if ("error" in nameNumbers(yourName)) return fail("MDA_PREVIEW_INVALID_YOUR_NAME", "Usa uma grafia em alfabeto latino que você reconheça.");
+  if ("error" in nameNumbers(theirName)) return fail("MDA_PREVIEW_INVALID_THEIR_NAME", "Usa uma grafia em alfabeto latino que você reconheça.");
+  const formatId = readOptionalFormatId(body.formatId);
+  if ("error" in formatId) return formatId;
+  return {
+    sessionId: body.sessionId,
+    answers,
+    yourName,
+    theirName,
+    yourDate,
+    theirDate,
+    formatId: formatId.value,
+  };
+}
+
+/** Ausente, null ou string vazia = prévia ainda sem entrega. Só string inválida é erro. */
+function readOptionalFormatId(value: unknown): { value: string | undefined } | ParseFailure {
+  if (value === undefined || value === null || value === "") return { value: undefined };
+  if (typeof value !== "string") return fail("MDA_PREVIEW_INVALID_ENUM", "Falta a entrega.");
+  const token = cleanToken(value, 64);
+  if (!token) return fail("MDA_PREVIEW_INVALID_ENUM", "Falta a entrega.");
+  return { value: token };
 }
 
 function cleanName(value: string): string | null {
