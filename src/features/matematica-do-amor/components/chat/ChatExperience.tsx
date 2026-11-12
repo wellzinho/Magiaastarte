@@ -72,6 +72,8 @@ export function ChatExperience() {
   const today = boot.today;
   const reducedMotion = boot.reduced;
   const [state, dispatch] = useReducer(reduceSession, boot.loaded);
+  /** Só dispara a prévia depois do cookie HttpOnly estar vinculado no servidor. */
+  const [sessionReady, setSessionReady] = useState(false);
   const stateRef = useRef(state);
   const [shownCount, setShownCount] = useState(boot.count);
   const [busy, setBusy] = useState(false);
@@ -165,10 +167,12 @@ export function ChatExperience() {
             if (stateRef.current.sessionId !== data.sessionId) {
               dispatch({ type: "set-session", sessionId: data.sessionId });
             }
+            setSessionReady(true);
           }
         })
         .catch((error: unknown) => {
           if (error instanceof DOMException && error.name === "AbortError") return;
+          setSessionReady(false);
         });
     }, 0);
     return () => {
@@ -178,17 +182,34 @@ export function ChatExperience() {
   }, []);
 
   useEffect(() => {
-    if (state.preview || state.previewError || !profileReady(state) || !state.sessionId || !state.yourName || !state.theirName || !state.yourDate || !state.theirDate) return;
+    if (
+      !sessionReady ||
+      state.preview ||
+      state.previewError ||
+      !profileReady(state) ||
+      !state.sessionId ||
+      !state.yourName ||
+      !state.theirName ||
+      !state.yourDate ||
+      !state.theirDate
+    ) {
+      return;
+    }
     const controller = new AbortController();
     const timer = window.setTimeout(() => {
       void fetch("/api/leitura/previa", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(readingPayload(state)),
         signal: controller.signal,
       })
         .then(async (response) => {
-          if (!response.ok) throw new Error("preview");
+          if (!response.ok) {
+            // Código técnico fica só no servidor/logs; UI permanece genérica.
+            await response.json().catch(() => null);
+            throw new Error("preview");
+          }
           return (await response.json()) as PreviewView;
         })
         .then((preview) => dispatch({ type: "set-preview", preview }))
@@ -201,7 +222,7 @@ export function ChatExperience() {
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [state]);
+  }, [state, sessionReady]);
 
   useEffect(() => {
     if (!state.orderId || !state.sessionId || state.payment !== "idle" || state.awaitingPixEmail) return;
@@ -209,6 +230,7 @@ export function ChatExperience() {
     const timer = window.setTimeout(() => {
       void fetch("/api/leitura/pedido/status", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: state.sessionId, orderId: state.orderId }),
         signal: controller.signal,
@@ -234,6 +256,7 @@ export function ChatExperience() {
           if (order.status === "approved") {
             const document = await fetch("/api/leitura/pedido/documento", {
               method: "POST",
+              credentials: "same-origin",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ sessionId: state.sessionId, orderId: order.id }),
             }).then(async (response) => (response.ok ? ((await response.json()) as PaidPayload) : null));
@@ -492,6 +515,7 @@ export function ChatExperience() {
     try {
       const response = await fetch("/api/leitura/pedido", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...readingPayload(state), formatId }),
       });
@@ -532,6 +556,7 @@ export function ChatExperience() {
     try {
       const response = await fetch("/api/mercado-pago/create-order", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ payerEmail: email.trim(), sessionId: state.sessionId, orderId: state.orderId }),
       });
@@ -581,6 +606,7 @@ export function ChatExperience() {
     if (!current.sessionId) return false;
     const document = await fetch("/api/leitura/pedido/documento", {
       method: "POST",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sessionId: current.sessionId, orderId }),
     });
@@ -656,6 +682,7 @@ export function ChatExperience() {
     try {
       const response = await fetch("/api/mercado-pago/order-status", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: current.sessionId, orderId: currentPix.mpOrderId }),
       });

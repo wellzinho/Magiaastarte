@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
-import { Redis } from "@upstash/redis";
-import { ORDER_TTL_SECONDS, redisConfigured, storeNamespace } from "@/features/matematica-do-amor/server/order-store";
+import { ORDER_TTL_SECONDS } from "@/features/matematica-do-amor/server/order-store";
 import { hashToken } from "./crypto";
+import { noStoreHeaders } from "./origin";
+import { sessionAuthKey, sessionRedis, sessionStoreMode } from "./session-store";
 
 export const SESSION_COOKIE_NAME = "mda-session";
 export const SESSION_COOKIE_HOST = "__Host-mda-session";
@@ -27,26 +28,22 @@ export function newSessionToken(): string {
   return randomBytes(32).toString("base64url");
 }
 
-function sessionKey(namespace: string, tokenHash: string): string {
-  return `${namespace}:auth:${tokenHash}`;
-}
-
 export async function bindSessionToken(token: string, sessionId: string, env: NodeJS.ProcessEnv = process.env): Promise<void> {
   const record: SessionRecord = { sessionId, createdAt: new Date().toISOString() };
-  const key = sessionKey(storeNamespace(env), hashToken(token));
-  if (redisConfigured(env)) {
-    const redis = Redis.fromEnv();
-    await redis.set(key, record, { ex: ORDER_TTL_SECONDS });
+  const key = sessionAuthKey(hashToken(token), env);
+  const mode = sessionStoreMode(env);
+  if (mode === "redis") {
+    await sessionRedis(env).set(key, record, { ex: ORDER_TTL_SECONDS });
     return;
   }
   memory().set(key, record);
 }
 
 export async function resolveSessionIdFromToken(token: string, env: NodeJS.ProcessEnv = process.env): Promise<string | null> {
-  const key = sessionKey(storeNamespace(env), hashToken(token));
-  if (redisConfigured(env)) {
-    const redis = Redis.fromEnv();
-    const record = await redis.get<SessionRecord>(key);
+  const key = sessionAuthKey(hashToken(token), env);
+  const mode = sessionStoreMode(env);
+  if (mode === "redis") {
+    const record = await sessionRedis(env).get<SessionRecord>(key);
     return record?.sessionId ?? null;
   }
   return memory().get(key)?.sessionId ?? null;
@@ -76,19 +73,33 @@ export function setSessionCookieHeader(token: string, env: NodeJS.ProcessEnv = p
   return parts.join("; ");
 }
 
+export function sessionErrorResponse(code: string, status = 401): Response {
+  console.error(code);
+  return Response.json({ error: "Sessão inválida.", code }, { status, headers: noStoreHeaders() });
+}
+
 /** Garante que o sessionId do body corresponde ao cookie HttpOnly. */
 export async function assertSessionBinding(
   request: Request,
   bodySessionId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<Response | null> {
-  const token = readCookie(request, cookieName(env)) ?? readCookie(request, SESSION_COOKIE_NAME);
-  if (!token) {
-    return Response.json({ error: "Sessão inválida." }, { status: 401, headers: { "Cache-Control": "no-store" } });
+  try {
+    const token = readCookie(request, cookieName(env)) ?? readCookie(request, SESSION_COOKIE_NAME);
+    if (!token) {
+      return sessionErrorResponse("MDA_PREVIEW_SESSION_ERROR");
+    }
+    const bound = await resolveSessionIdFromToken(token, env);
+    if (!bound || bound !== bodySessionId) {
+      return sessionErrorResponse("MDA_PREVIEW_SESSION_ERROR");
+    }
+    return null;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (message === "MDA_SESSION_REDIS_REQUIRED") {
+      return sessionErrorResponse("MDA_PREVIEW_REDIS_ERROR", 503);
+    }
+    console.error("MDA_PREVIEW_SESSION_ERROR");
+    return sessionErrorResponse("MDA_PREVIEW_SESSION_ERROR", 503);
   }
-  const bound = await resolveSessionIdFromToken(token, env);
-  if (!bound || bound !== bodySessionId) {
-    return Response.json({ error: "Sessão inválida." }, { status: 401, headers: { "Cache-Control": "no-store" } });
-  }
-  return null;
 }
