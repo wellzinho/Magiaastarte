@@ -1,5 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { enforceRateLimits, LIMITS } from "@/lib/security/rate-limit";
+import { MAX_WEBHOOK_BODY_BYTES } from "@/lib/security/request";
 import {
   META_DATASET_ID,
   buildCompraConcluida,
@@ -30,12 +32,27 @@ function signatureMatches(rawBody: string, token: string, signature: string): bo
 }
 
 export async function POST(request: NextRequest) {
+  const limited = await enforceRateLimits(request, {
+    endpoint: "kiwify-meta",
+    limits: LIMITS.kiwify,
+  });
+  if (limited) return limited;
+
   const token = process.env.KIWIFY_WEBHOOK_TOKEN;
   if (typeof token !== "string" || token.length === 0) {
     return NextResponse.json({ received: false }, { status: 500 });
   }
 
+  const contentLength = request.headers.get("content-length");
+  if (contentLength && Number(contentLength) > MAX_WEBHOOK_BODY_BYTES) {
+    return NextResponse.json({ received: false }, { status: 413 });
+  }
+
   const raw = await request.text();
+  if (raw.length > MAX_WEBHOOK_BODY_BYTES) {
+    return NextResponse.json({ received: false }, { status: 413 });
+  }
+
   const signature = request.nextUrl.searchParams.get("signature");
   if (!signature || !signatureMatches(raw, token, signature)) {
     return NextResponse.json({ received: false }, { status: 401 });
@@ -55,10 +72,8 @@ export async function POST(request: NextRequest) {
   console.log({
     webhook_event_type: parsed.webhook_event_type ?? null,
     order_status: parsed.order_status ?? null,
-    order_id: parsed.order_id ?? null,
-    "Product.product_id": parsed.Product?.product_id ?? null,
-    "Commissions.charge_amount": parsed.Commissions?.charge_amount ?? null,
-    "Commissions.currency": parsed.Commissions?.currency ?? null,
+    order_ref: typeof parsed.order_id === "string" ? parsed.order_id.slice(0, 8) : null,
+    product_ref: typeof parsed.Product?.product_id === "string" ? parsed.Product.product_id.slice(0, 8) : null,
   });
 
   if (!isEligiblePurchase(parsed)) {
@@ -99,14 +114,11 @@ async function sendCompraConcluida(
   event: Extract<ReturnType<typeof buildCompraConcluida>, { ok: true }>["event"],
   accessToken: string,
 ): Promise<{ ok: boolean; status: number; errorCode: number | null; eventsReceived: number | null }> {
-  const url = new URL(META_EVENTS_URL);
-  url.searchParams.set("access_token", accessToken);
-
   try {
-    const response = await fetch(url, {
+    const response = await fetch(META_EVENTS_URL, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ data: [event] }),
+      body: JSON.stringify({ data: [event], access_token: accessToken }),
       signal: AbortSignal.timeout(10_000),
     });
     const body = await readJson(response);

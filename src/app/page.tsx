@@ -12,7 +12,7 @@ import { MetaViewContent } from "@/components/analytics/meta-view-content";
 
 export default function Home() {
   return (
-    <>
+    <div className="pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:pb-0">
       <MetaViewContent />
       <RevealObserver />
       <SiteHeader />
@@ -26,6 +26,6 @@ export default function Home() {
       </main>
       <SiteFooter />
       <StickyCta />
-    </>
+    </div>
   );
 }

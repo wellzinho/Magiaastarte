@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { siteUrl } from "@/lib/site-url";
 
 export const META_DATASET_ID = "1648078539613617";
 export const PRACTICE_PRODUCT_ID = "df7946b0-b2c3-11f1-a689-cd733c12bf87";
@@ -26,13 +27,17 @@ export type CompraConcluidaEvent = {
   event_name: "CompraConcluida";
   event_time: number;
   event_id: string;
-  action_source: "other";
+  action_source: "website";
+  event_source_url: string;
   user_data: {
     em: string[];
   };
   custom_data: {
     value: number;
     currency: string;
+    content_name: string;
+    content_ids: string[];
+    content_type: string;
   };
 };
 
@@ -113,13 +118,17 @@ export function buildCompraConcluida(sale: SaleWebhook): PurchaseBuildResult {
       event_name: "CompraConcluida",
       event_time: eventTime,
       event_id: orderId,
-      action_source: "other",
+      action_source: "website",
+      event_source_url: siteUrl("/"),
       user_data: {
         em: [emailHash],
       },
       custom_data: {
         value,
         currency,
+        content_name: "21 Práticas de Pombagira",
+        content_ids: ["21_praticas_pombagira"],
+        content_type: "product",
       },
     },
   };
