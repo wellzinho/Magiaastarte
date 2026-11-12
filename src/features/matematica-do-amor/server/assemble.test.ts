@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { quizPlan } from "../content/steps";
+import { PRICE_LABEL } from "../domain/payment";
 import type { Answers, DateParts } from "../domain/types";
 import { buildDocument, buildPreview, deliveredTexts, type ReadingDocument } from "./assemble";
 import { synthesize } from "./synthesis";
@@ -144,9 +145,9 @@ describe("resposta direta e coerência", () => {
     const preview = buildPreview(paths[1]?.answers ?? {}, "Ana Silva", "João", youDate, theirDate, "simulated");
     if ("error" in preview) throw new Error(preview.error);
     expect(preview.bubbles.join(" ")).not.toContain("possibilidade de a gente voltar");
-    expect(preview.cta).toContain("R$ 19,90");
+    expect(preview.cta).toContain(PRICE_LABEL);
     const offer = preview.offers.resposta ?? [];
-    const priceAt = offer.findIndex((line) => line.includes("R$ 19,90"));
+    const priceAt = offer.findIndex((line) => line.includes(PRICE_LABEL));
     expect(priceAt).toBeGreaterThanOrEqual(3);
     expect(offer.slice(0, priceAt).join(" ")).toMatch(/agir|abordar|observar|sinais|hábito|promessa|risco/i);
   });

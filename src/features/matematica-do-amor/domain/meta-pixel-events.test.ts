@@ -7,6 +7,7 @@ import {
   trackMdaQuizStarted,
   trackMdaViewContent,
 } from "./meta-pixel-events";
+import { MDA_PRODUCT } from "./meta-catalog";
 
 afterEach(() => {
   resetMetaPixelEvents();
@@ -28,7 +29,7 @@ describe("eventos Meta da Matemática do Amor", () => {
     expect(fbq).toHaveBeenCalledWith(
       "track",
       "ViewContent",
-      expect.objectContaining({ content_ids: ["matematica_do_amor"], value: 19.9, currency: "BRL" }),
+      expect.objectContaining({ content_ids: ["matematica_do_amor"], value: MDA_PRODUCT.value, currency: "BRL" }),
     );
     expect(fbq).toHaveBeenCalledWith(
       "trackCustom",

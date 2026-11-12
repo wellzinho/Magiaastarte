@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Answers, DateParts } from "../domain/types";
+import { PRICE_LABEL } from "../domain/payment";
 import { buildDocument, buildPreview, deliveredTexts, type ReadingDocument } from "./assemble";
 import { storyFlags } from "../domain/facts";
 import { goalFromAnswers, selectPaidGuidance, type GuidanceGoal } from "./guidance";
@@ -98,6 +99,6 @@ describe("a parte paga não repete a gratuita", () => {
     expect(beforePrice).toMatch(/como agir/);
     expect(beforePrice).toMatch(/atitudes/);
     expect(beforePrice).toMatch(/sem criar falsa esperança/);
-    expect(preview.offers.resposta.at(-1)).toMatch(/R\$ 19,90/);
+    expect(preview.offers.resposta.at(-1)).toContain(PRICE_LABEL);
   });
 });

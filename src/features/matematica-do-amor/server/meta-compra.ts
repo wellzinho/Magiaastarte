@@ -5,6 +5,7 @@ import {
   markMetaPurchaseFailed,
   markMetaPurchaseSent,
 } from "./meta-capi-dedup";
+import { MDA_PRICE_CENTS } from "../domain/price";
 import { mercadoPagoMode } from "./mercadopago";
 
 export type MdaCompraInput = {
@@ -23,7 +24,7 @@ export async function reportMdaCompraConcluida(input: MdaCompraInput): Promise<{
   try {
     if (input.testMode) return { sent: false, reason: "test_mode" };
     if (mercadoPagoMode() !== "production") return { sent: false, reason: "not_production" };
-    if (input.amountCents !== 1990 || input.currency !== "BRL") return { sent: false, reason: "invalid_amount" };
+    if (input.amountCents !== MDA_PRICE_CENTS || input.currency !== "BRL") return { sent: false, reason: "invalid_amount" };
     if (!input.externalReference.startsWith("astarte_matematica_amor_")) {
       return { sent: false, reason: "invalid_reference" };
     }

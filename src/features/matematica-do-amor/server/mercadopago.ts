@@ -1,7 +1,8 @@
 import { createHash, randomUUID } from "node:crypto";
+import { MDA_CHARGE_AMOUNT, MDA_PRICE_CENTS } from "../domain/price";
 
 export const REFERENCE_PREFIX = "astarte_matematica_amor_";
-export const CHARGE_AMOUNT = "19.90";
+export const CHARGE_AMOUNT = MDA_CHARGE_AMOUNT;
 export const PRODUCT_NAME = "Orientação Completa - Matemática do Amor";
 
 export type MercadoPagoMode = "test" | "production";
@@ -51,10 +52,10 @@ export function isOwnReference(value: unknown): value is string {
 }
 
 export function isExactPrice(value: unknown): boolean {
-  if (typeof value === "number" && Number.isFinite(value)) return Math.round(value * 100) === 1990;
+  if (typeof value === "number" && Number.isFinite(value)) return Math.round(value * 100) === MDA_PRICE_CENTS;
   if (typeof value !== "string" || !/^\d+\.\d{2}$/.test(value)) return false;
   const [whole, fraction] = value.split(".");
-  return Number(whole) * 100 + Number(fraction) === 1990;
+  return Number(whole) * 100 + Number(fraction) === MDA_PRICE_CENTS;
 }
 
 export function pixChargeBody(input: {

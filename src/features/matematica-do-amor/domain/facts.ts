@@ -1,5 +1,6 @@
 import type { Answers } from "./types";
 import type { Pronouns } from "./pronouns";
+import { PRICE_LABEL } from "./payment";
 
 export type Delivery = { id: string; label: string };
 export type Desire = "reconcile" | "opening" | "move_on" | "repair" | "unknown";
@@ -181,12 +182,12 @@ export function preselectId(): string | null {
 
 export function ctaOf(answers: Answers): string {
   const desire = desiredOutcome(answers);
-  if (branchOf(answers) === "R") return "Quero saber o que fazer nessa relação · R$ 19,90";
-  if (desire === "reconcile") return "Quero saber se ainda vale tentar · R$ 19,90";
-  if (desire === "opening") return "Quero entender se existe abertura · R$ 19,90";
-  if (desire === "move_on") return "Quero minha orientação para seguir · R$ 19,90";
-  if (explicitLimit(answers)) return "Quero a resposta direta · R$ 19,90";
-  return "Quero a resposta direta · R$ 19,90";
+  if (branchOf(answers) === "R") return `Quero saber o que fazer nessa relação · ${PRICE_LABEL}`;
+  if (desire === "reconcile") return `Quero saber se ainda vale tentar · ${PRICE_LABEL}`;
+  if (desire === "opening") return `Quero entender se existe abertura · ${PRICE_LABEL}`;
+  if (desire === "move_on") return `Quero minha orientação para seguir · ${PRICE_LABEL}`;
+  if (explicitLimit(answers)) return `Quero a resposta direta · ${PRICE_LABEL}`;
+  return `Quero a resposta direta · ${PRICE_LABEL}`;
 }
 
 function otherPerson(answers: Answers): { subject: string; possessive: string } {
@@ -203,7 +204,7 @@ export function offerLines(answers: Answers): string[] {
   const possessive = person.possessive;
   const reaction = subject === "ele" ? "dele" : subject === "ela" ? "dela" : "dessa pessoa";
   const bond = branch === "R" ? "dessa relação" : "dessa história";
-  const price = `Sua orientação completa custa R$ 19,90, em pagamento único. Depois da confirmação do pagamento, ela continua aqui no chat. Vou te mostrar, de acordo com os números de vocês, como agir, o que esperar ${bond} e como interpretar a reação ${reaction}.`;
+  const price = `Sua orientação completa custa ${PRICE_LABEL}, em pagamento único. Depois da confirmação do pagamento, ela continua aqui no chat. Vou te mostrar, de acordo com os números de vocês, como agir, o que esperar ${bond} e como interpretar a reação ${reaction}.`;
   const lines =
     branch === "R"
       ? [

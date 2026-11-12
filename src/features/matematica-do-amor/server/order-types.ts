@@ -1,6 +1,7 @@
 import type { PreviewPayload, ReadingDocument } from "./assemble";
+import { MDA_PRICE_CENTS } from "../domain/price";
 
-export const PRICE_CENTS = 1990 as const;
+export const PRICE_CENTS = MDA_PRICE_CENTS;
 
 export type OrderStatus = "pending" | "approved" | "expired" | "canceled" | "failed";
 

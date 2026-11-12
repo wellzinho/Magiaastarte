@@ -1,4 +1,5 @@
 import { siteUrl } from "@/lib/site-url";
+import { MDA_PRICE_VALUE } from "./price";
 
 /** Identificação técnica do produto — sem dados pessoais. */
 export const MDA_PRODUCT = {
@@ -6,7 +7,7 @@ export const MDA_PRODUCT = {
   content_category: "produto_digital",
   content_ids: ["matematica_do_amor"] as const,
   content_type: "product",
-  value: 19.9,
+  value: MDA_PRICE_VALUE,
   currency: "BRL",
   num_items: 1,
 } as const;

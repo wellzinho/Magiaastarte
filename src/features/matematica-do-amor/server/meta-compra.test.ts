@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { MDA_PRICE_CENTS } from "../domain/price";
 import { mdaEventSourceUrl } from "../domain/meta-catalog";
 import { resetMetaCapiDedup } from "./meta-capi-dedup";
 import { reportMdaCompraConcluida } from "./meta-compra";
@@ -18,7 +19,7 @@ describe("reportMdaCompraConcluida", () => {
     const result = await reportMdaCompraConcluida({
       mpOrderId: "ORD01ABCDEFGH",
       externalReference: "astarte_matematica_amor_abc",
-      amountCents: 1990,
+      amountCents: MDA_PRICE_CENTS,
       currency: "BRL",
       testMode: true,
     });
@@ -32,7 +33,7 @@ describe("reportMdaCompraConcluida", () => {
     const result = await reportMdaCompraConcluida({
       mpOrderId: "ORD01ABCDEFGH",
       externalReference: "astarte_matematica_amor_abc",
-      amountCents: 1990,
+      amountCents: MDA_PRICE_CENTS,
       currency: "BRL",
       testMode: false,
     });
@@ -55,7 +56,7 @@ describe("reportMdaCompraConcluida", () => {
     const result = await reportMdaCompraConcluida({
       mpOrderId: "ORD01ABCDEFGH",
       externalReference: "astarte_matematica_amor_abc",
-      amountCents: 1990,
+      amountCents: MDA_PRICE_CENTS,
       currency: "BRL",
       testMode: false,
     });
@@ -77,6 +78,7 @@ describe("reportMdaCompraConcluida", () => {
     expect(event.event_id).toBe("ORD01ABCDEFGH");
     expect(event.action_source).toBe("website");
     expect(event.event_source_url).toBe("https://magiaastarte.com.br/matematica-do-amor");
+    expect(event.custom_data.value).toBe(0.01);
     expect(event.custom_data.content_ids).toEqual(["matematica_do_amor"]);
     expect(JSON.stringify(event)).not.toMatch(/@|nascimento|email/i);
   });

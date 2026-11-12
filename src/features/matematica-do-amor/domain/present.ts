@@ -154,7 +154,7 @@ export function present(state: SessionState, today: Date): Presentation {
       text: "Ele será usado somente para identificar o pagamento no Mercado Pago. Sua leitura será entregue aqui no chat.",
     });
     return pack(messages, "payer-email", [], {
-      entry: { who: "you", kind: "email", submitLabel: "Gerar meu Pix de R$ 19,90" },
+      entry: { who: "you", kind: "email", submitLabel: `Gerar meu Pix de ${PRICE_LABEL}` },
       showEdit: true,
     });
   }

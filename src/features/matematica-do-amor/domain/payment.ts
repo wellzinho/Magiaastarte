@@ -1,8 +1,10 @@
-export const PRICE_CENTS = 1990 as const;
+import { MDA_PRICE_CENTS, MDA_PRICE_LABEL } from "./price";
 
-export const PRICE_LABEL = "R$ 19,90";
+export const PRICE_CENTS = MDA_PRICE_CENTS;
 
-export const UNLOCK_LABEL = "Desbloquear minha leitura · R$ 19,90";
+export const PRICE_LABEL = MDA_PRICE_LABEL;
+
+export const UNLOCK_LABEL = `Desbloquear minha leitura · ${MDA_PRICE_LABEL}`;
 
 export const STAY_LABEL = "Ficar com a leitura grátis";
 
@@ -47,7 +49,7 @@ export function createSimulatedIntent(): ChargeIntent {
 
 export function confirmSimulated(intent: ChargeIntent): ChargeIntent {
   if (intent.mode !== "simulated" || intent.amountCents !== PRICE_CENTS) {
-    throw new Error("Este build só confirma a simulação de R$ 19,90.");
+    throw new Error(`Este build só confirma a simulação de ${PRICE_LABEL}.`);
   }
 
   return { ...intent, status: "approved" };

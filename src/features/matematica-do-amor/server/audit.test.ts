@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { quizComplete, quizPlan } from "../content/steps";
 import { firstName } from "../domain/names";
+import { PRICE_LABEL } from "../domain/payment";
 import type { Answers } from "../domain/types";
 import { readingSections } from "../domain/reading-copy";
 import { buildDocument, buildPreview, deliveredTexts, readingFigures, type ReadingDocument } from "./assemble";
@@ -74,7 +75,7 @@ describe("auditoria das 20 jornadas", () => {
       if ("error" in preview) throw new Error(preview.error);
       const offer = preview.offers.resposta ?? [];
       expect(offer.length).toBeGreaterThanOrEqual(4);
-      expect(offer.at(-1)).toMatch(/R\$ 19,90/);
+      expect(offer.at(-1)).toMatch(new RegExp(PRICE_LABEL.replace("R$", "R\\$")));
       const promise = offer.slice(0, -1).join(" ");
       expect(promise).not.toMatch(VAGUE_OFFER);
       expect(promise).toMatch(/agir|abordar|observar|sinais|hábito|atitude|risco|participação|promessa/i);

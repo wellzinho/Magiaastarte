@@ -59,7 +59,7 @@ describe("pedido e confirmação", () => {
   it("não aceita preço, sessão alheia, já paguei nem falha temporária como aprovação", async () => {
     const order = await orderFor(session);
     expect(order.amountCents).toBe(PRICE_CENTS);
-    expect(order.amountCents).toBe(1990);
+    expect(order.amountCents).toBe(1);
     expect(await readOrder(other, order.id)).toBeNull();
     expect(await confirmSimulated(other, order.id)).toBeNull();
     expect((await readOrder(session, order.id))?.status).toBe("pending");

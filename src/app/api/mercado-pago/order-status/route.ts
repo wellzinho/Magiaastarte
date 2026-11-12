@@ -1,6 +1,7 @@
 import { readPixOrder } from "@/features/matematica-do-amor/server/mercadopago";
 import { reportMdaCompraConcluida } from "@/features/matematica-do-amor/server/meta-compra";
 import { approveVerified, noteCharge, readOrderByProvider } from "@/features/matematica-do-amor/server/orders";
+import { PRICE_CENTS } from "@/features/matematica-do-amor/server/order-types";
 import { assertBrowserOrigin } from "@/lib/security/origin";
 import { enforceRateLimits, LIMITS } from "@/lib/security/rate-limit";
 import { jsonNoStore, readJsonBody } from "@/lib/security/request";
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
   if (limited) return limited;
 
   const local = await readOrderByProvider(payload.sessionId, payload.orderId);
-  if (!local?.externalReference || local.amountCents !== 1990 || local.currency !== "BRL") {
+  if (!local?.externalReference || local.amountCents !== PRICE_CENTS || local.currency !== "BRL") {
     return jsonNoStore({ status: "error" }, { status: 404 });
   }
   const remote = await readPixOrder(payload.orderId, local.externalReference);
