@@ -8,6 +8,7 @@ import {
   approveVerified,
   confirmSimulated,
   createPendingOrder,
+  getOrderStore,
   markFailed,
   PRICE_CENTS,
   readOrder,
@@ -59,13 +60,35 @@ describe("pedido e confirmação", () => {
   it("não aceita preço, sessão alheia, já paguei nem falha temporária como aprovação", async () => {
     const order = await orderFor(session);
     expect(order.amountCents).toBe(PRICE_CENTS);
-    expect(order.amountCents).toBe(1);
+    expect(order.amountCents).toBe(1990);
     expect(await readOrder(other, order.id)).toBeNull();
     expect(await confirmSimulated(other, order.id)).toBeNull();
     expect((await readOrder(session, order.id))?.status).toBe("pending");
     expect((await markFailed(session, order.id))?.status).toBe("failed");
     expect(await confirmSimulated(session, order.id)).toBeNull();
     expect((await readOrder(session, order.id))?.status).toBe("failed");
+  });
+
+  it("recusa um Pix pendente de R$ 0,01 e preserva um pedido já aprovado", async () => {
+    const order = await orderFor(session);
+    const pendingCent = {
+      ...order,
+      amountCents: 1 as typeof order.amountCents,
+      providerOrderId: "ORD01CENTAVOTESTE00000001",
+      externalReference: "astarte_matematica_amor_centavo",
+    };
+    await getOrderStore().set(pendingCent);
+    expect(
+      await approveVerified(session, order.id, {
+        mpOrderId: pendingCent.providerOrderId,
+        externalReference: pendingCent.externalReference,
+      }),
+    ).toBeNull();
+    expect((await readOrder(session, order.id))?.status).toBe("pending");
+
+    await getOrderStore().set({ ...pendingCent, status: "approved" });
+    expect((await readOrder(session, order.id))?.status).toBe("approved");
+    expect((await readOrder(session, order.id))?.amountCents).toBe(1);
   });
 
   it("confirma a simulação uma vez e devolve o mesmo documento", async () => {

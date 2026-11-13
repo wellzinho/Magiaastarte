@@ -78,7 +78,7 @@ describe("reportMdaCompraConcluida", () => {
     expect(event.event_id).toBe("ORD01ABCDEFGH");
     expect(event.action_source).toBe("website");
     expect(event.event_source_url).toBe("https://magiaastarte.com.br/matematica-do-amor");
-    expect(event.custom_data.value).toBe(0.01);
+    expect(Number(event.custom_data.value).toFixed(2)).toBe("19.90");
     expect(event.custom_data.content_ids).toEqual(["matematica_do_amor"]);
     expect(JSON.stringify(event)).not.toMatch(/@|nascimento|email/i);
   });

@@ -1,8 +1,5 @@
-/**
- * TEMPORÁRIO — teste real de Pix em produção.
- * Restaurar para 1990 (R$ 19,90) imediatamente após o teste.
- */
-export const MDA_PRICE_CENTS = 1 as const;
+/** Preço oficial da Matemática do Amor. */
+export const MDA_PRICE_CENTS = 1990 as const;
 
 export const MDA_CHARGE_AMOUNT = formatChargeAmount(MDA_PRICE_CENTS);
 export const MDA_PRICE_LABEL = formatPriceLabel(MDA_PRICE_CENTS);

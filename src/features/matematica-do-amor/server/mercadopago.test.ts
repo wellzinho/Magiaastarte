@@ -46,8 +46,8 @@ describe("cobrança Pix", () => {
     const production = pixChargeBody({ email: "pessoa@example.com", reference, mode: "production", buyerFirstName: "Ana" });
     expect(test.total_amount).toBe(CHARGE_AMOUNT);
     expect(test.transactions.payments[0]?.amount).toBe(CHARGE_AMOUNT);
-    expect(test.transactions.payments[0]?.amount).toBe("0.01");
-    expect(test.total_amount).toBe("0.01");
+    expect(test.transactions.payments[0]?.amount).toBe("19.90");
+    expect(test.total_amount).toBe("19.90");
     expect(test.items[0]?.title).toBe("Orientação Completa - Matemática do Amor");
     expect(test.payer.first_name).toBe("APRO");
     expect(production.payer.first_name).toBe("Ana");
@@ -55,25 +55,25 @@ describe("cobrança Pix", () => {
     expect(newExternalReference().startsWith(REFERENCE_PREFIX)).toBe(true);
   });
 
-  it("só trata como aprovado um Pix de R$ 0,01 desta referência", () => {
+  it("só trata como aprovado um Pix de R$ 19,90 desta referência", () => {
     expect(assessMercadoPagoOrder(payload(), reference)?.status).toBe("pending");
     expect(normalizeStatus("processing", "waiting", "processing", "waiting")).toBe("pending");
     const approved = assessMercadoPagoOrder(payload({ status: "processed", status_detail: "accredited" }), reference);
     expect(approved?.status).toBe("approved");
     expect(assessMercadoPagoOrder(payload({ status: "processed", status_detail: "waiting_transfer" }), reference)?.status).not.toBe("approved");
-    expect(assessMercadoPagoOrder(payload({ total_amount: "19.90" }), reference)).toBeNull();
-    expect(isExactPrice("0.01")).toBe(true);
-    expect(isExactPrice("19.90")).toBe(false);
-    expect(isExactPrice(0.01)).toBe(true);
+    expect(assessMercadoPagoOrder(payload({ total_amount: "0.01" }), reference)).toBeNull();
+    expect(isExactPrice("19.90")).toBe(true);
+    expect(isExactPrice("0.01")).toBe(false);
+    expect(isExactPrice(19.9)).toBe(true);
     expect(assessMercadoPagoOrder(payload({ external_reference: "outra-loja" }), reference)).toBeNull();
     expect(assessMercadoPagoOrder(payload(), `${REFERENCE_PREFIX}outra`)).toBeNull();
     const card = payload();
     const payments = (card.transactions as { payments: { payment_method: { id: string; type: string } }[] }).payments;
     payments[0]!.payment_method = { id: "visa", type: "credit_card" };
     expect(assessMercadoPagoOrder(card, reference)).toBeNull();
-    expect(isExactPrice("0.01")).toBe(true);
-    expect(isExactPrice("0.02")).toBe(false);
-    expect(isExactPrice(0.01)).toBe(true);
+    expect(isExactPrice("19.90")).toBe(true);
+    expect(isExactPrice("19.91")).toBe(false);
+    expect(isExactPrice(19.9)).toBe(true);
   });
 
   it("valida o e-mail e recusa marcação insegura no QR", () => {
